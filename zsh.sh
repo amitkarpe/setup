@@ -14,8 +14,8 @@ source ~/.zshrc
 # https://github.com/romkatv/powerlevel10k
 # p10k configure
 
-curl -o $ZSH/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
-source $ZSH/zsh-linux.sh
+curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
+source ~/.oh-my-zsh/zsh-linux.sh
 
 }
 
