@@ -15,7 +15,10 @@ source ~/.zshrc
 # p10k configure
 
 curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
-source ~/.oh-my-zsh/zsh-linux.sh
+
+cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting
+cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
+
 
 }
 
