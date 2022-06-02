@@ -22,3 +22,10 @@ For Advance system setup, run
 ```
 curl -o- https://raw.githubusercontent.com/amitkarpe/setup2/main/ubuntu.sh | bash
 ```
+
+
+Common for zsh
+
+```
+curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/zsh.sh | bash
+```
