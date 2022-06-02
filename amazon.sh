@@ -6,7 +6,10 @@ basic () {
 echo "LC_ALL=en_US.UTF-8" | sudo tee -a /etc/environment
 echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
 sudo yum update --assumeyes;
-sudo amazon-linux-extras install epel -y;
+sudo amazon-linux-extras install epel docker -y;
+sudo usermod -a -G docker ec2-user
+#sudo systemctl enable docker
+#sudo service docker start
 sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils bridge-utils jq
 }
 
