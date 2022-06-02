@@ -3,7 +3,8 @@
 set -e
 
 tools {
-sudo amazon-linux-extras install epel -y; 
+sudo amazon-linux-extras install epel -y;
+sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils  bridge-utils 
 }
 
 dev {
@@ -19,7 +20,9 @@ terraform -install-autocomplete
 }
 
 main () {
-
+  tools
+  dev
+  devops
 }
 
 main
