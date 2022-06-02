@@ -42,10 +42,18 @@ terragrunt --version
 
 }
 
+git () {
+git config --global user.name "Amit Karpe"
+git config --global user.email "amitkarpe@gmail.com"
+git config --global credential.username amitkarpe
+}
+
+
 main () {
   basic
   dev
   devops
+  git
 }
 
 main
