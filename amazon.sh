@@ -3,6 +3,8 @@
 set -e
 
 basic () {
+echo "LC_ALL=en_US.UTF-8" | sudo tee -a /etc/environment
+echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
 sudo yum update --assumeyes;
 sudo amazon-linux-extras install epel -y;
 sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils  bridge-utils 
