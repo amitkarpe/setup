@@ -10,6 +10,10 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 
 echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> ~/.zshrc
 p10k configure
+
+curl -o $ZSH/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
+source $ZSH/zsh-linux.sh
+
 }
 
 main () {
