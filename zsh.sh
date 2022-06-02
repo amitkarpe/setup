@@ -3,6 +3,7 @@
 set -e
 
 install () {
+sudo usermod $USER -s /usr/bin/zsh
 zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
