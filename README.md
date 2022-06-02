@@ -23,6 +23,11 @@ For Advance system setup, run
 curl -o- https://raw.githubusercontent.com/amitkarpe/setup2/main/ubuntu.sh | bash
 ```
 
+Common for DevOps 
+```
+curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/devops.sh | bash
+```
+
 
 Common for zsh
 
