@@ -22,6 +22,17 @@ wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/
 sudo install -o root -g root -m 0755 terragrunt /usr/local/bin/terragrunt
 terragrunt --version
 
+curl -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+# curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
+helm version
+
+# curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+# sudo install -o root -g root -m 0755 /tmp/eksctl /usr/local/bin/eksctl
+# eksctl version
+# curl -o /tmp/aws-iam-authenticator https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+# sudo install -o root -g root -m 0755 /tmp/aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
+# aws-iam-authenticator version
+
 #brew install helm kubernetes-cli k9s octant kube-ps1 kubectx stern
 #brew install tektoncd-cli argocd
 #brew upgrade skaffold k3d helm 
