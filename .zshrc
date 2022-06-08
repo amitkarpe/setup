@@ -18,6 +18,8 @@ export ZSH="~/.oh-my-zsh"
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+# source $ZSH/oh-my-zsh.sh
+[[ ! -f ~/.oh-my-zsh/oh-my-zsh.sh ]] || source ~/.oh-my-zsh/oh-my-zsh.sh
 
 
 plugins=(
@@ -33,7 +35,7 @@ history
 kube-ps1
 )
 
-source $ZSH/oh-my-zsh.sh
+
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -42,6 +44,7 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f ~/.oh-my-zsh/zsh-linux.sh ]] || source ~/.oh-my-zsh/zsh-linux.sh
+
 
 
 # User configuration
