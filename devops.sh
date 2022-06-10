@@ -28,6 +28,9 @@ helm version
 
 # https://github.com/tektoncd/cli + https://tekton.dev/docs/cli/
 sudo  rpm -Uvh https://github.com/tektoncd/cli/releases/download/v0.23.1/tektoncd-cli-0.23.1_Linux-64bit.rpm
+sudo ln -s /usr/bin/tkn /usr/local/bin/kubectl-tkn
+mkdir -p ~/bin
+kubectl plugin list
 # curl -LO https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz
 # sudo tar xvzf tkn_0.23.1_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
 
