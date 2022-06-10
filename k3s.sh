@@ -4,9 +4,10 @@
 sudo systemctl enable docker
 sudo service docker start
 
-curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker --no-deploy traefik
+export INSTALL_K3S_VERSION="v1.21.5+k3s2"
+curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker
 
-# curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker 
+# curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker --no-deploy traefik
 
 
 mkdir -p ~/.kube
