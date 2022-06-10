@@ -14,14 +14,19 @@ echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> ~/.zshrc
 https://github.com/romkatv/powerlevel10k
 p10k configure
 
-curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
-curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
+#curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
+#curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
 
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
 
 echo "Run: source ~/.zshrc"
 
+}
+
+uninstall () {
+rm -rf ~/.oh-my-zsh/
+rm -v .zsh_history .zcompdump* .zshrc
 }
 
 main () {
