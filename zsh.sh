@@ -22,6 +22,7 @@ echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> ~/.zshrc
 curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/.p10k.zsh
 # p10k configure
 
+mv ~/.zshrc ~/.zshrc.org
 #curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
 #curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
 
