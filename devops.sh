@@ -26,6 +26,12 @@ curl -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | b
 # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
 helm version
 
+# https://github.com/tektoncd/cli + https://tekton.dev/docs/cli/
+sudo  rpm -Uvh https://github.com/tektoncd/cli/releases/download/v0.23.1/tektoncd-cli-0.23.1_Linux-64bit.rpm
+# curl -LO https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz
+# sudo tar xvzf tkn_0.23.1_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
+
+
 # curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 # sudo install -o root -g root -m 0755 /tmp/eksctl /usr/local/bin/eksctl
 # eksctl version
