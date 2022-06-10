@@ -1,6 +1,9 @@
 # https://k3s.io/
 # https://github.com/k3s-io/k3s
 
+sudo systemctl enable docker
+sudo service docker start
+
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker --no-deploy traefik
 
 # curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker 
