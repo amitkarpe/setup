@@ -56,7 +56,7 @@ rm -v .zsh_history .zcompdump* .zshrc
 }
 
 main () {
-  install
+#  install
   setup
   
 }
