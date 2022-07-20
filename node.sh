@@ -17,8 +17,6 @@ npm --version
 nvm --version
 }
 
-}
-
 main () {
 	nvm
 	node
