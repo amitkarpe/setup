@@ -46,6 +46,8 @@ source $ZSH/oh-my-zsh.sh
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f ${HOME}/.oh-my-zsh/zsh-linux.sh ]] || source ${HOME}/.oh-my-zsh/zsh-linux.sh
 
+[[ ! -f ${HOME}/.zshrc_extra ]] || source ${HOME}/.zshrc_extra
+
 
 
 # User configuration
