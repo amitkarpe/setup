@@ -8,6 +8,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 cp ~/.zshrc ~/.zshrc.org
 curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
+curl -OL https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc_extra
 curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/.p10k.zsh
 setup;
 source ~/.zshrc
@@ -32,6 +33,7 @@ echo "Setup started"
 
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
+cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/jonmosco/kube-ps1.git
 
 (
   set -x; cd "$(mktemp -d)" &&
