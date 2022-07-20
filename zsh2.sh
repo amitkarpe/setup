@@ -8,6 +8,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 cp ~/.zshrc ~/.zshrc.org
 curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
+curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/.p10k.zsh
 source ~/.zshrc
 #exit 0;
 }
