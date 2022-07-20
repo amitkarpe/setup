@@ -20,7 +20,7 @@ export ZSH="${HOME}/.oh-my-zsh"
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-[[ ! -f ${HOME}/.oh-my-zsh/oh-my-zsh.sh ]] || source ${HOME}/.oh-my-zsh/oh-my-zsh.sh
+
 
 
 plugins=(
@@ -36,18 +36,15 @@ history
 kube-ps1
 )
 
-source $ZSH/oh-my-zsh.sh
+[[ ! -f ${HOME}/.oh-my-zsh/oh-my-zsh.sh ]] || source ${HOME}/.oh-my-zsh/oh-my-zsh.sh
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f ${HOME}/.oh-my-zsh/zsh-linux.sh ]] || source ${HOME}/.oh-my-zsh/zsh-linux.sh
 
 [[ ! -f ${HOME}/.zshrc_extra ]] || source ${HOME}/.zshrc_extra
 
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 
 # User configuration
