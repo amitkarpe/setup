@@ -9,9 +9,8 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 cp ~/.zshrc ~/.zshrc.org
 curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
 curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/.p10k.zsh
-# source ~/.zshrc
-#exit 0;
 setup;
+source ~/.zshrc
 }
 
 setup () {
