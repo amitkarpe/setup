@@ -32,5 +32,5 @@ curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/devops.sh | bash
 Common for zsh
 
 ```
-curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/zsh.sh | zsh
+curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/zsh2.sh | zsh
 ```
