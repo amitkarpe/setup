@@ -1,6 +1,6 @@
-
 # https://github.com/jonmosco/kube-ps1.git
-source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+#source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+source "${ZSH}/custom/plugins/kube-ps1/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
 PROMPT='$(kube_ps1)'$PROMPT
 export KUBE_PS1_SYMBOL_USE_IMG=true
@@ -28,16 +28,16 @@ autoload -Uz compinit && compinit
 export AWS_PAGER=""
 #export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export AWS_REGION=ap-southeast-1
-export PATH="/opt/homebrew/opt/python@3.8/bin:$PATH"
+#export PATH="/opt/homebrew/opt/python@3.8/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-ulimit -n 65536 200000
+#ulimit -n 65536 200000
 #export TERRAGRUNT_DOWNLOAD=~/TERRAGRUNT_DOWNLOAD/
 #export TERRAGRUNT_DOWNLOAD=~/.terraform.d/TERRAGRUNT_DOWNLOAD/
 #export TFENV_ARCH=arm64
 export PATH="$HOME/.tfenv/bin:$PATH"
-export PATH="/opt/homebrew/opt/kubernetes-cli@1.22/bin:$PATH"
+#export PATH="/opt/homebrew/opt/kubernetes-cli@1.22/bin:$PATH"
 #source <(kubectl completion zsh)
 #typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
