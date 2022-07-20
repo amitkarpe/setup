@@ -20,7 +20,6 @@ export ZSH="${HOME}/.oh-my-zsh"
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# source $ZSH/oh-my-zsh.sh
 [[ ! -f ${HOME}/.oh-my-zsh/oh-my-zsh.sh ]] || source ${HOME}/.oh-my-zsh/oh-my-zsh.sh
 
 
@@ -37,7 +36,7 @@ history
 kube-ps1
 )
 
-
+source $ZSH/oh-my-zsh.sh
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
