@@ -24,7 +24,7 @@ curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/.p10k
 
 #mv ~/.zshrc ~/.zshrc.org
 cp ~/.zshrc ~/.zshrc.org
-#curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
+curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
 #curl -o ~/.zshrc_extra https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc_extra
 #curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
 
