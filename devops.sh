@@ -23,7 +23,7 @@ export cmd=kubectl
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
-printf "${cmd} is installed"
+printf "\n${cmd} is installed\n"
 else
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo install -o root -g root -m 0755 ${cmd} ${path}
@@ -36,7 +36,7 @@ export cmd=terraform
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
-printf "${cmd} is installed"
+printf "\n${cmd} is installed\n"
 else
 wget https://releases.hashicorp.com/terraform/1.2.6/terraform_1.2.6_linux_amd64.zip
 unzip -u $(echo terraform*.zip)
@@ -51,7 +51,7 @@ export cmd=terragrunt
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
-printf "${cmd} is installed"
+printf "\n${cmd} is installed\n"
 else
 wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64
 sudo install -o root -g root -m 0755 terragrunt /usr/local/bin/terragrunt
@@ -64,7 +64,7 @@ export cmd=helm
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
-printf "${cmd} is installed"
+printf "\n${cmd} is installed\n"
 else
 curl -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
@@ -77,7 +77,7 @@ export cmd=tkn
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
-printf "${cmd} is installed"
+printf "\n${cmd} is installed\n"
 else
 curl -LO https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz
 sudo tar xvzf tkn_0.23.1_Linux_x86_64.tar.gz
