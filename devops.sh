@@ -22,7 +22,7 @@ then
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 unzip -u /tmp/awscliv2.zip
 printf "\n \n \n"
-sudo ./aws/install # --update
+sudo ./aws/install --update
 printf "\n \n \n"
 aws --version
 fi
