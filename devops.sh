@@ -8,10 +8,12 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 echo '\n \n \n'
 kubectl version --client
+echo '\n \n \n'
 
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 unzip /tmp/awscliv2.zip
-sudo ./aws/install
+echo '\n \n \n'
+sudo ./aws/install --update
 echo '\n \n \n'
 aws --version
 
@@ -22,6 +24,7 @@ sudo install -o root -g root -m 0755 terraform  /usr/local/bin/terraform
 terraform -install-autocomplete
 echo '\n \n \n'
 terraform  --version
+echo '\n \n \n'
 
 #curl https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64 -o terragrunt
 wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64
