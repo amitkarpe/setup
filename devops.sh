@@ -87,9 +87,13 @@ rm -rf ~/install
 }
 
 git () {
+if [[ ! -f  ~/.gitconfig ]]
+then
 git config --global user.name "Amit Karpe"
 git config --global user.email "amitkarpe@gmail.com"
 git config --global credential.username amitkarpe
+fi
+
 }
 
 main () {
