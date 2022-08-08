@@ -17,10 +17,9 @@ alias tg="terragrunt"
 complete -F __start_kubectl k
 
 complete -o nospace -C '/usr/local/bin/aws_completer' aws
-complete -o nospace -C /usr/local/bin/terraform terraform
+complete -o nospace -C '/usr/local/bin/terraform' terraform
 complete -o nospace -C '/usr/local/bin/terragrunt' terragrunt
 
-#complete -C aws_completer aws
 #alias aws-profile="source aws-profile"
 #alias aws="aws-wrapper"
 
