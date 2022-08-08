@@ -24,11 +24,21 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 
 plugins=(
+aws
+fzf
+copyfile
+copybuffer
+copypath
+dirhistory
+
+aliases
+alias-finder
 tmux
 git
 docker
 history-substring-search
 colored-man-pages
+zsh-completions
 zsh-autosuggestions
 zsh-syntax-highlighting
 kubectl
@@ -41,6 +51,11 @@ kube-ps1
 [[ ! -f ${HOME}/.oh-my-zsh/zsh-linux.sh ]] || source ${HOME}/.oh-my-zsh/zsh-linux.sh
 
 [[ ! -f ${HOME}/.zshrc_extra ]] || source ${HOME}/.zshrc_extra
+
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+source $HOME/.oh-my-zsh/custom/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+zstyle ':completion:*' fzf-search-display true
+bindkey '^I' fzf_completion
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
