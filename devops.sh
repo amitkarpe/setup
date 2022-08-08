@@ -7,17 +7,9 @@ devops () {
 mkdir -p ~/install 
 cd ~/install 
 pwd
+export path=/usr/local/bin/${cmd}
 
-if [[ ! -f /usr/local/bin/kubectl ]] 
-then
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-printf "\n \n \n"
-kubectl version --short --client
-printf "\n \n \n"
-fi
-
-if [[ ! -f /usr/local/bin/aws ]]
+if [[ -f /usr/local/bin/aws ]]
 then
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 unzip -u /tmp/awscliv2.zip
@@ -27,21 +19,40 @@ printf "\n \n \n"
 aws --version
 fi
 
-if [[ ! -f  /usr/local/bin/terraform ]]
+export cmd=kubectl
+echo ${cmd} ${path}
+if [[ -f ${path} ]] 
 then
-#sudo yum install -y yum-utils && sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo && sudo yum -y install terraform
+printf "${cmd} is installed"
+else
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 ${cmd} ${path}
+printf "\n \n \n"
+kubectl version --short --client
+printf "\n \n \n"
+fi
+
+export cmd=terraform
+echo ${cmd} ${path}
+if [[ -f ${path} ]] 
+then
+printf "${cmd} is installed"
+else
 wget https://releases.hashicorp.com/terraform/1.2.6/terraform_1.2.6_linux_amd64.zip
 unzip -u $(echo terraform*.zip)
-sudo install -o root -g root -m 0755 terraform  /usr/local/bin/terraform
+sudo install -o root -g root -m 0755 ${cmd} ${path}
 terraform -install-autocomplete || true
 printf "\n \n \n"
 terraform  --version
 printf "\n \n \n"
 fi
 
-if [[ ! -f  /usr/local/bin/terragrunt ]]
+export cmd=terragrunt
+echo ${cmd} ${path}
+if [[ -f ${path} ]] 
 then
-#curl https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64 -o terragrunt
+printf "${cmd} is installed"
+else
 wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64
 sudo install -o root -g root -m 0755 terragrunt /usr/local/bin/terragrunt
 printf "\n \n \n"
@@ -49,8 +60,12 @@ terragrunt --version
 printf "\n \n \n"
 fi
 
-if [[ ! -f  /usr/local/bin/helm ]]
+export cmd=helm
+echo ${cmd} ${path}
+if [[ -f ${path} ]] 
 then
+printf "${cmd} is installed"
+else
 curl -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
 printf "\n \n \n"
@@ -58,8 +73,12 @@ helm version
 printf "\n \n \n"
 fi
 
-if [[ ! -f  /usr/local/bin/tkn ]]
+export cmd=tkn
+echo ${cmd} ${path}
+if [[ -f ${path} ]] 
 then
+printf "${cmd} is installed"
+else
 curl -LO https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz
 sudo tar xvzf tkn_0.23.1_Linux_x86_64.tar.gz
 sudo install -o root -g root -m 0755 tkn /usr/local/bin/tkn
