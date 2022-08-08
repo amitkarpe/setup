@@ -15,7 +15,10 @@ sudo ./aws/install
 echo '\n \n \n'
 aws --version
 
-sudo yum install -y yum-utils && sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo && sudo yum -y install terraform
+#sudo yum install -y yum-utils && sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo && sudo yum -y install terraform
+wget https://releases.hashicorp.com/terraform/1.2.6/terraform_1.2.6_linux_amd64.zip
+unzip $(echo terraform*.zip)
+sudo install -o root -g root -m 0755 terraform  /usr/local/bin/terraform
 terraform -install-autocomplete
 echo '\n \n \n'
 terraform  --version
