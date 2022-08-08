@@ -20,7 +20,6 @@ fi
 
 export cmd=kubectl
 export path=/usr/local/bin/${cmd}
-echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
 printf "\n${cmd} is installed\n"
@@ -34,7 +33,7 @@ fi
 
 export cmd=terraform
 export path=/usr/local/bin/${cmd}
-echo ${cmd} ${path}
+#echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
 printf "\n${cmd} is installed\n"
@@ -50,7 +49,7 @@ fi
 
 export cmd=terragrunt
 export path=/usr/local/bin/${cmd}
-echo ${cmd} ${path}
+#echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
 printf "\n${cmd} is installed\n"
@@ -64,7 +63,7 @@ fi
 
 export cmd=helm
 export path=/usr/local/bin/${cmd}
-echo ${cmd} ${path}
+#echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
 printf "\n${cmd} is installed\n"
@@ -78,7 +77,7 @@ fi
 
 export cmd=tkn
 export path=/usr/local/bin/${cmd}
-echo ${cmd} ${path}
+#echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
 printf "\n${cmd} is installed\n"
