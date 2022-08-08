@@ -35,6 +35,8 @@ cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syn
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/jonmosco/kube-ps1
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-completions
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --all
 git clone https://github.com/lincheney/fzf-tab-completion.git ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/fzf-tab-completion
 
 (
@@ -62,6 +64,7 @@ rm -v .zsh_history .zcompdump* .zshrc
 }
 
 main () {
+  zsh
   install
 #  setup
   
