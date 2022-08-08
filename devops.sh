@@ -7,7 +7,6 @@ devops () {
 mkdir -p ~/install 
 cd ~/install 
 pwd
-export path=/usr/local/bin/${cmd}
 
 if [[ -f /usr/local/bin/aws ]]
 then
@@ -20,6 +19,7 @@ aws --version
 fi
 
 export cmd=kubectl
+export path=/usr/local/bin/${cmd}
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
@@ -33,6 +33,7 @@ printf "\n \n \n"
 fi
 
 export cmd=terraform
+export path=/usr/local/bin/${cmd}
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
@@ -48,6 +49,7 @@ printf "\n \n \n"
 fi
 
 export cmd=terragrunt
+export path=/usr/local/bin/${cmd}
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
@@ -61,6 +63,7 @@ printf "\n \n \n"
 fi
 
 export cmd=helm
+export path=/usr/local/bin/${cmd}
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
@@ -74,6 +77,7 @@ printf "\n \n \n"
 fi
 
 export cmd=tkn
+export path=/usr/local/bin/${cmd}
 echo ${cmd} ${path}
 if [[ -f ${path} ]] 
 then
