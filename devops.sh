@@ -4,7 +4,8 @@ set -e
 # set -x
 
 devops () {
-mkdir -p ~/install
+mkdir -p ~/install && cd ~/install && pwd
+
 if [[ ! -f /usr/local/bin/kubectl ]] 
 then
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -19,7 +20,7 @@ then
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 unzip -u /tmp/awscliv2.zip
 printf "\n \n \n"
-sudo ./aws/install --update
+sudo ./aws/install # --update
 printf "\n \n \n"
 aws --version
 fi
