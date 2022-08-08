@@ -21,8 +21,9 @@ nvm install 14.7.0
 # sudo apt install golang -y
 #curl -O https://storage.googleapis.com/golang/go1.13.5.linux-amd64.tar.gz
 #sudo rm -rf /usr/local/go
-curl -OL https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
-sudo tar -C /usr/local -xvf go1.16.7.linux-amd64.tar.gz
+#curl -OL https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
+curl -OL https://go.dev/dl/go1.18.5.linux-amd64.tar.gz
+sudo tar -C /usr/local -xvf go1.18.5.linux-amd64.tar.gz
 mkdir -p ~/go
 echo 'export GOPATH=$HOME/go' >> ~/.bashrc
 echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.bashrc
