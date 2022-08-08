@@ -33,7 +33,9 @@ echo "Setup started"
 
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting
 cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
-cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/jonmosco/kube-ps1.git
+cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/jonmosco/kube-ps1
+cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-completions
+git clone https://github.com/lincheney/fzf-tab-completion.git ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/fzf-tab-completion
 
 (
   set -x; cd "$(mktemp -d)" &&
