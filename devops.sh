@@ -4,6 +4,7 @@ set -e
 # set -x
 
 devops () {
+mkdir -p ~/install
 if [[ ! -f /usr/local/bin/kubectl ]] 
 then
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -77,6 +78,8 @@ fi
 #brew upgrade skaffold k3d helm 
 #brew upgrade jq kompose dive kustomise jib 
 #brew install terraform terragrunt
+cd
+rm -rf ~/install
 
 }
 
