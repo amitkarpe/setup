@@ -4,7 +4,9 @@ set -e
 # set -x
 
 devops () {
-mkdir -p ~/install && cd ~/install && pwd
+mkdir -p ~/install 
+cd ~/install 
+pwd
 
 if [[ ! -f /usr/local/bin/kubectl ]] 
 then
