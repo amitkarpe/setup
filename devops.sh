@@ -30,7 +30,7 @@ then
 wget https://releases.hashicorp.com/terraform/1.2.6/terraform_1.2.6_linux_amd64.zip
 unzip -u $(echo terraform*.zip)
 sudo install -o root -g root -m 0755 terraform  /usr/local/bin/terraform
-terraform -install-autocomplete
+terraform -install-autocomplete || true
 printf "\n \n \n"
 terraform  --version
 printf "\n \n \n"
