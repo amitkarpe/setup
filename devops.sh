@@ -8,8 +8,12 @@ mkdir -p ~/install
 cd ~/install 
 pwd
 
-if [[ -f /usr/local/bin/aws ]]
+export cmd=aws
+export path=/usr/local/bin/${cmd}
+if [[ -f ${path} ]] 
 then
+printf "\n${cmd} is installed\n"
+else
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 unzip -u /tmp/awscliv2.zip
 printf "\n \n \n"
