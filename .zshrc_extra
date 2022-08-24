@@ -6,6 +6,7 @@ PROMPT='$(kube_ps1)'$PROMPT
 export KUBE_PS1_SYMBOL_USE_IMG=true
 alias kctx="kubectx"
 alias kns="kubens"
+export DOCKER_BUILDKIT=1
 # https://github.com/unixorn/awesome-zsh-plugins
 # https://www.bash2zsh.com/zsh_refcard/refcard.pdf
 # https://grml.org/zsh/zsh-lovers.html
