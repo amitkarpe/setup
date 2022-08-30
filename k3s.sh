@@ -15,3 +15,11 @@ sudo chmod +r /etc/rancher/k3s/k3s.yaml
 mkdir -p ~/.kube
 cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
 export KUBECONFIG=~/.kube/config
+
+
+echo "\n\n"
+cat /etc/rancher/k3s/k3s.yaml
+
+echo "\n\n"
+kubectl config view
+kubectl get node
