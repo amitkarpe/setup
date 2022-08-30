@@ -77,7 +77,7 @@ fi
 main () {
   basic
   dev
-  docker
+#  docker
   git
 }
 
