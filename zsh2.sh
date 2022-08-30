@@ -49,14 +49,16 @@ git clone https://github.com/lincheney/fzf-tab-completion.git ${ZSH_CUSTOM:=~/.o
   ./"${KREW}" install krew
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
   echo "\n\n\nkubectl krew install applier colorize-applied confirm ns ctx \n\n\n"
-  kubectl krew install applier colorize-applied confirm ns ctx
+  kubectl krew install applier colorize-applied confirm ns ctx || true
 )
 
 echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.zshrc
 echo 'alias kctx="kubectl-ctx"
 alias k="kubectl"
 alias kns="kubectl-ns"'  >> ~/.zshrc
-
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 echo "Run: source ~/.zshrc"
 
 }
