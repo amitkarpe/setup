@@ -47,6 +47,8 @@ git clone https://github.com/lincheney/fzf-tab-completion.git ${ZSH_CUSTOM:=~/.o
   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
   tar zxvf "${KREW}.tar.gz" &&
   ./"${KREW}" install krew
+  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+  echo "\n\n\nkubectl krew install applier colorize-applied confirm ns ctx \n\n\n"
   kubectl krew install applier colorize-applied confirm ns ctx
 )
 
