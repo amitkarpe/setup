@@ -28,6 +28,8 @@ nvm install 14.7.0
 curl -OL https://go.dev/dl/go1.18.5.linux-amd64.tar.gz
 sudo tar -C /usr/local -xvf go1.18.5.linux-amd64.tar.gz
 mkdir -p ~/go
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 echo 'export GOPATH=$HOME/go' >> ~/.bashrc
 echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.bashrc
 source ~/.bashrc
