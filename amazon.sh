@@ -45,12 +45,12 @@ docker () {
 #sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
-sudo sh /tmp/get-docker.sh
-sudo usermod -a -G docker ubuntu
-sudo chmod 666 /var/run/docker.sock
+sudo sh /tmp/get-docker.sh || true 
+sudo usermod -a -G docker $USER
 sudo systemctl enable docker
 sudo service docker start
 sudo systemctl status docker
+sudo chmod 666 /var/run/docker.sock
 docker run hello-world
 
 
