@@ -9,3 +9,8 @@ sudo useradd --create-home $new --groups wheel --shell /usr/bin/zsh --password 1
 echo " $new ALL=(ALL)   NOPASSWD: ALL"  | sudo tee -a  /etc/sudoers
 
 echo "Run: chsh -s $(which zsh)"
+grep "^${new}" /etc/passwd
+
+# Add /usr/bin/zsh
+#sudo vim /etc/passwd
+#grep "^${USER}" /etc/passwd
