@@ -7,7 +7,7 @@ sudo apt-get update -y # && sudo apt-get upgrade -y
 
 #sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils bridge-utils jq
 # sudo apt  install -y tree tmux nano unzip vim wget git net-tools bind9-utils bridge-utils bash-completion zsh zsh-completion htop jq
-sudo apt install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release
+sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release
 #sudo apt install -y apt-file tasksel
 # bind9-utils bridge-utils bash-completion
 }
@@ -26,7 +26,7 @@ nvm install 14.7.0
 #sudo rm -rf /usr/local/go
 #curl -OL https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
 curl -OL https://go.dev/dl/go1.18.5.linux-amd64.tar.gz
-sudo tar -C /usr/local -xvf go1.18.5.linux-amd64.tar.gz
+sudo tar -q -C /usr/local -xf go1.18.5.linux-amd64.tar.gz
 mkdir -p ~/go
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
@@ -78,7 +78,7 @@ main () {
   basic
   dev
 #  docker
-  git
+#  git
 }
 
 main
