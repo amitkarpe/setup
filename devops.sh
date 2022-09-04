@@ -124,7 +124,7 @@ fi
 
 main () {
   devops
-  git
+#  git
 }
 
 main
