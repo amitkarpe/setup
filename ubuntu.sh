@@ -69,18 +69,8 @@ docker-compose --version
 git () {
 if [[ ! -f  ~/.gitconfig ]]
 then
-git config --global user.name "Amit Karpe"
-git config --global user.email "amitkarpe@gmail.com"
-git config --global credential.username amitkarpe
-git config --global credential.host github.com
-git config --global core.editor "vim"
-git config --global color.ui true
-git config --global color.ui auto
-git config --global color.status auto
-git config --global color.branch auto
-git config --global color.diff auto
-git config --global core.excludesfile ~/.gitignore_global
-curl -o ~/.gitignore_global https://raw.githubusercontent.com/amitkarpe/setup/main/.gitignore_global
+curl -o ~/..gitconfig https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitconfig
+curl -o ~/.gitignore_global https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitignore_global
 
 export PAGER=''
 sleep 2
