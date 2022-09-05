@@ -51,7 +51,7 @@ sudo usermod -a -G docker ubuntu
 sudo chmod 666 /var/run/docker.sock
 sudo systemctl enable docker
 sudo service docker start
-sudo systemctl status docker
+sudo systemctl status docker --no-pager
 docker run hello-world
 
 
@@ -87,8 +87,8 @@ fi
 main () {
   basic
   dev
-#  docker
-#  git
+  docker
+  git
 }
 
 main
