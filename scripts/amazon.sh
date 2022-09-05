@@ -2,7 +2,7 @@
 
 set -e
 
-basic () {
+install_packages() {
 echo "LC_ALL=en_US.UTF-8" | sudo tee -a /etc/environment
 echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
 sudo yum update --assumeyes;
@@ -13,7 +13,7 @@ sudo usermod -a -G docker ec2-user
 sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils bridge-utils jq
 }
 
-dev () {
+install_dev() {
 # https://github.com/nvm-sh/nvm/#installing-and-updating
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
@@ -35,7 +35,7 @@ go version
 
 }
 
-docker () {
+install_docker () {
 #sudo apt-get remove -y docker docker-engine docker.io containerd runc
 #sudo mkdir -p /etc/apt/keyrings
 #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -59,7 +59,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 }
 
-git () {
+install_git () {
 git config --global user.name "Amit Karpe"
 git config --global user.email "amitkarpe@gmail.com"
 git config --global credential.username amitkarpe
@@ -67,10 +67,11 @@ git config --global credential.username amitkarpe
 
 
 main () {
-  basic
-  dev
-  docker
-  git
+  sleep 2
+  install_packages
+  install_dev
+  install_docker
+  install_git
 }
 
 main

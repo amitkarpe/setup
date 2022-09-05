@@ -3,11 +3,18 @@
 set -e
 
 install_packages() {
-sudo apt-get update -y # && sudo apt-get upgrade -y
-# sudo apt  install -y tree tmux nano unzip vim wget git net-tools bind9-utils bridge-utils bash-completion zsh zsh-completion htop jq
-sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release
-#sudo apt install -y apt-file tasksel
+if [[ ! -f $(which apt-get) ]]
+then
+  sudo apt-get update -y # && sudo apt-get upgrade -y
+  sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release
+fi
 
+if [[ ! -f $(which yum) ]]
+then
+  sudo yum update --assumeyes;
+  sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils bridge-utils jq
+  # sudo amazon-linux-extras install epel docker -y; sudo usermod -a -G docker ec2-user
+fi
 }
 
 install_dev() {

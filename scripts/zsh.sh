@@ -16,6 +16,8 @@ source ~/.zshrc
 }
 
 setup_zsh () {
+echo "LC_ALL=en_US.UTF-8" | sudo tee -a /etc/environment
+echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
 
 echo "Setup started"
 #source ~/.zshrc
