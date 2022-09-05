@@ -51,7 +51,16 @@ go version
 
 install_docker() {
 
-if [[ ! -f $(which docker) ]]
+if [[ -f "/usr/bin/yum"  &&  ! -f "/usr/bin/docker" ]];
+then
+  sudo amazon-linux-extras install docker -y
+  sudo usermod -a -G docker ec2-user
+  sudo chmod 666 /var/run/docker.sock
+  sudo systemctl enable docker --now
+  sudo systemctl status docker --no-pager
+fi
+
+if [[ ! -f $(which docker) ]];
 then
   curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
   sudo sh /tmp/get-docker.sh
@@ -59,7 +68,6 @@ then
   sudo chmod 666 /var/run/docker.sock
   sudo systemctl enable docker --now
   sudo systemctl status docker --no-pager
-  docker run hello-world
 fi
 docker version
 
