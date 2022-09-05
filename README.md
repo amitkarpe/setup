@@ -1,16 +1,10 @@
 # setup
 System setup related files or scripts
 
-Just run following script for Amazon/RedHat distro
+Just run following common install script for Amazon/RedHat or Ubuntu/Debian distro
 
 ```
-curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/scripts/amazon.sh | bash
-```
-
-Just run following script for Ubuntu/Debian distro
-
-```
-curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/scripts/ubuntu.sh | bash
+curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/scripts/install.sh | bash
 ```
 
 Common for DevOps 
