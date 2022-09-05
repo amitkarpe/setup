@@ -10,6 +10,7 @@ cp ~/.zshrc ~/.zshrc.org
 curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
 curl -OL https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc_extra
 curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/.p10k.zsh
+sudo chsh -s /usr/bin/zsh ${USER}
 setup;
 source ~/.zshrc
 }
