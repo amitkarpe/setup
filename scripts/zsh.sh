@@ -7,9 +7,9 @@ echo "Installation started"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 cp ~/.zshrc ~/.zshrc.org
-curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
-curl -OL https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc_extra
-curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/.p10k.zsh
+curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.zshrc
+curl -OL https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.zshrc_extra
+curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.p10k.zsh
 sudo chsh -s /usr/bin/zsh ${USER}
 setup;
 source ~/.zshrc
