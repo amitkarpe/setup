@@ -1,7 +1,7 @@
 # setup
 System setup related files or scripts
 
-Just run following common install script for Amazon/RedHat or Ubuntu/Debian distro
+Common install script for Amazon/RedHat or Ubuntu/Debian distro
 
 ```
 curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/scripts/install.sh | bash
