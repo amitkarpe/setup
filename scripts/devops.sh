@@ -89,7 +89,7 @@ then
 printf "\n${cmd} is installed\n"
 else
 curl -LO https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz -s
-sudo tar xvzf tkn_0.23.1_Linux_x86_64.tar.gz
+sudo tar xzf tkn_0.23.1_Linux_x86_64.tar.gz
 sudo install -o root -g root -m 0755 tkn /usr/local/bin/tkn
 printf "\n \n \n"
 tkn version

@@ -57,9 +57,9 @@ then
   sudo sh /tmp/get-docker.sh
   sudo usermod -a -G docker ubuntu
   sudo chmod 666 /var/run/docker.sock
-  sudo systemctl enable docker --now
-  sudo systemctl status docker --no-pager
-  docker run hello-world
+  # sudo systemctl enable docker --now
+  # sudo systemctl status docker --no-pager
+  # docker run hello-world
 fi
 docker version
 
