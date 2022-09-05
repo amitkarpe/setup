@@ -28,8 +28,8 @@ curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc
 #curl -o ~/.zshrc_extra https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc_extra
 #curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
 
-cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting
-cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
+cd ~/.oh-my-zsh/custom/plugins && git clone  --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting
+cd ~/.oh-my-zsh/custom/plugins && git clone  --depth=1  https://github.com/zsh-users/zsh-autosuggestions
 
 (
   set -x; cd "$(mktemp -d)" &&
