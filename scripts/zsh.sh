@@ -36,13 +36,13 @@ echo "Setup started"
 #curl -o ~/.zshrc_extra https://raw.githubusercontent.com/amitkarpe/setup/main/.zshrc_extra
 #curl -o ~/.oh-my-zsh/zsh-linux.sh https://raw.githubusercontent.com/amitkarpe/setup/main/zsh-linux.sh
 
-cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting
-cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
-cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/jonmosco/kube-ps1
-cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-completions
+cd ~/.oh-my-zsh/custom/plugins && git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting
+cd ~/.oh-my-zsh/custom/plugins && git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions
+cd ~/.oh-my-zsh/custom/plugins && git clone --depth=1 https://github.com/jonmosco/kube-ps1
+cd ~/.oh-my-zsh/custom/plugins && git clone --depth=1 https://github.com/zsh-users/zsh-completions
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
-git clone https://github.com/lincheney/fzf-tab-completion.git ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/fzf-tab-completion
+git clone --depth=1  https://github.com/lincheney/fzf-tab-completion.git ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/fzf-tab-completion
 
 (
   set -x; cd "$(mktemp -d)" &&
@@ -61,7 +61,7 @@ echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.zshrc
 echo 'alias kctx="kubectl-ctx"
 alias k="kubectl"
 alias kns="kubectl-ns"'  >> ~/.zshrc
-sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo git clone --depth=1  https://github.com/ahmetb/kubectx /opt/kubectx
 sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
 sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 echo "Run: source ~/.zshrc"
