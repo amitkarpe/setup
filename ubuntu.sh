@@ -25,7 +25,7 @@ nvm install 14.7.0
 #curl -O https://storage.googleapis.com/golang/go1.13.5.linux-amd64.tar.gz
 #sudo rm -rf /usr/local/go
 #curl -OL https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
-curl -OL https://go.dev/dl/go1.18.5.linux-amd64.tar.gz
+curl -OL https://go.dev/dl/go1.18.5.linux-amd64.tar.gz -s
 sudo tar -C /usr/local -xf go1.18.5.linux-amd64.tar.gz
 mkdir -p ~/go
 export GOPATH=$HOME/go
@@ -37,27 +37,26 @@ go version
 }
 
 docker () {
-#sudo apt-get remove -y docker docker-engine docker.io containerd runc
-#sudo mkdir -p /etc/apt/keyrings
-#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-#echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-#  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-#sudo apt-get update -y
-#sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
-sudo sh /tmp/get-docker.sh
-sudo usermod -a -G docker ubuntu
-sudo chmod 666 /var/run/docker.sock
-sudo systemctl enable docker
-sudo service docker start
-sudo systemctl status docker --no-pager
-docker run hello-world
+if [[ ! -f $(which docker) ]]
+then
+  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+  sudo sh /tmp/get-docker.sh
+  sudo usermod -a -G docker ubuntu
+  sudo chmod 666 /var/run/docker.sock
+  sudo systemctl enable docker --now
+  sudo systemctl status docker --no-pager
+  docker run hello-world
+fi
+docker version
 
-
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+if [[ ! -f $(which docker-compos) ]]
+then
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -s -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+fi
 docker-compose --version
+
 }
 
 
