@@ -13,7 +13,8 @@ if [[ -f /usr/bin/yum ]]
 then
   sudo yum update --assumeyes;
   sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils bridge-utils jq
-  # sudo amazon-linux-extras install epel docker -y; sudo usermod -a -G docker ec2-user
+  sudo amazon-linux-extras install epel docker -y; sudo usermod -a -G docker ec2-user
+  # sudo systemctl enable docker --now; sudo systemctl status docker --no-pager  
 fi
 }
 
@@ -51,33 +52,31 @@ go version
 
 install_docker() {
 
-if [[ -f "/usr/bin/yum"  &&  ! -f "/usr/bin/docker" ]];
-then
-  sudo amazon-linux-extras install docker -y
-  sudo usermod -a -G docker ec2-user
-  sudo chmod 666 /var/run/docker.sock
-  sudo systemctl enable docker --now
-  sudo systemctl status docker --no-pager
-fi
+# if [[ -f "/usr/bin/yum"  &&  ! -f "/usr/bin/docker" ]];
+# then
+#   sudo amazon-linux-extras install docker -y
+#   sudo usermod -a -G docker ec2-user
+#   sudo systemctl enable docker --now
+#   sudo systemctl status docker --no-pager
+# fi
 
 if [[ ! -f $(which docker) ]];
 then
   curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
   sudo sh /tmp/get-docker.sh
   sudo usermod -a -G docker ubuntu
-  sudo chmod 666 /var/run/docker.sock
+  # sudo chmod 666 /var/run/docker.sock
   sudo systemctl enable docker --now
   sudo systemctl status docker --no-pager
 fi
-docker version
+docker version || true
 
 if [[ ! -f $(which docker-compos) ]]
 then
   sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -s -o /usr/local/bin/docker-compose
   sudo chmod +x /usr/local/bin/docker-compose
 fi
-docker-compose --version
-
+docker-compose --version || true
 }
 
 
