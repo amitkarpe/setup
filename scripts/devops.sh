@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 set -e
-# set -x
+set -x
 
 devops () {
 mkdir -p ~/install 
@@ -14,7 +14,7 @@ if [[ -f ${path} ]]
 then
 printf "\n${cmd} is installed\n"
 else
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -s -o "/tmp/awscliv2.zip"
 unzip -uq /tmp/awscliv2.zip
 printf "\n \n \n"
 sudo ./aws/install --update
@@ -42,8 +42,9 @@ if [[ -f ${path} ]]
 then
 printf "\n${cmd} is installed\n"
 else
-wget https://releases.hashicorp.com/terraform/1.2.6/terraform_1.2.6_linux_amd64.zip
-unzip -u $(echo terraform*.zip)
+# wget https://releases.hashicorp.com/terraform/1.2.6/terraform_1.2.6_linux_amd64.zip
+curl -L https://releases.hashicorp.com/terraform/1.2.6/terraform_1.2.6_linux_amd64.zip -s -o /tmp/terraform.zip
+unzip -u /tmp/terraform.zip
 sudo install -o root -g root -m 0755 ${cmd} ${path}
 terraform -install-autocomplete || true
 printf "\n \n \n"
@@ -58,7 +59,8 @@ if [[ -f ${path} ]]
 then
 printf "\n${cmd} is installed\n"
 else
-wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64
+# wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64
+curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.1/terragrunt_linux_amd64 -s -o terragrunt
 sudo install -o root -g root -m 0755 terragrunt /usr/local/bin/terragrunt
 printf "\n \n \n"
 terragrunt --version
@@ -86,7 +88,7 @@ if [[ -f ${path} ]]
 then
 printf "\n${cmd} is installed\n"
 else
-curl -LO https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz
+curl -LO https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz -s
 sudo tar xvzf tkn_0.23.1_Linux_x86_64.tar.gz
 sudo install -o root -g root -m 0755 tkn /usr/local/bin/tkn
 printf "\n \n \n"
@@ -112,19 +114,9 @@ rm -rf ~/install
 
 }
 
-git () {
-if [[ ! -f  ~/.gitconfig ]]
-then
-git config --global user.name "Amit Karpe"
-git config --global user.email "amitkarpe@gmail.com"
-git config --global credential.username amitkarpe
-fi
-
-}
 
 main () {
   devops
-#  git
 }
 
 main
