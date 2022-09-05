@@ -69,13 +69,15 @@ docker-compose --version
 git () {
 if [[ ! -f  ~/.gitconfig ]]
 then
-curl -o ~/..gitconfig https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitconfig
+set -x
+curl -o ~/.gitconfig https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitconfig
 curl -o ~/.gitignore_global https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitignore_global
 
 export PAGER=''
 sleep 2
 git config --global --list
 cat ~/.gitconfig
+set +x
 fi
 }
 
