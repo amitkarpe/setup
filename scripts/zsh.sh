@@ -2,7 +2,7 @@
 
 set -e
 
-install () {
+install_zsh () {
 echo "Installation started"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -11,11 +11,11 @@ curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.zsh
 curl -OL https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.zshrc_extra
 curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.p10k.zsh
 sudo chsh -s /usr/bin/zsh ${USER}
-setup;
+setup_zsh;
 source ~/.zshrc
 }
 
-setup () {
+setup_zsh () {
 
 echo "Setup started"
 #source ~/.zshrc
@@ -64,15 +64,15 @@ echo "Run: source ~/.zshrc"
 
 }
 
-uninstall () {
+uninstall_zsh () {
 rm -rf ~/.oh-my-zsh/
 rm -v .zsh_history .zcompdump* .zshrc
 }
 
 main () {
   zsh
-  install
-#  setup
+  install_zsh
+#  setup_zsh
   
 }
 

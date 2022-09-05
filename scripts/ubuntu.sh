@@ -2,7 +2,7 @@
 
 set -e
 
-basic () {
+install_packages() {
 sudo apt-get update -y # && sudo apt-get upgrade -y
 # sudo apt  install -y tree tmux nano unzip vim wget git net-tools bind9-utils bridge-utils bash-completion zsh zsh-completion htop jq
 sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release
@@ -10,7 +10,7 @@ sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq 
 
 }
 
-dev () {
+install_dev() {
 if [[ ! -f $(which nvm) ]]
 then
 # https://github.com/nvm-sh/nvm/#installing-and-updating
@@ -42,7 +42,7 @@ fi
 go version
 }
 
-docker () {
+install_docker() {
 
 if [[ ! -f $(which docker) ]]
 then
@@ -66,7 +66,7 @@ docker-compose --version
 }
 
 
-git () {
+install_git() {
 if [[ ! -f  ~/.gitconfig ]]
 then
 set -x
@@ -74,8 +74,7 @@ curl -o ~/.gitconfig https://raw.githubusercontent.com/amitkarpe/setup/main/dot/
 curl -o ~/.gitignore_global https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitignore_global
 
 export PAGER=''
-sleep 2
-git config --global --list
+# git config --global --list
 cat ~/.gitconfig
 set +x
 fi
@@ -84,10 +83,10 @@ fi
 
 main () {
   sleep 2
-  basic
-  dev
-  docker
-  git
+  install_packages
+  install_dev
+  install_docker
+  install_git
 }
 
 main
