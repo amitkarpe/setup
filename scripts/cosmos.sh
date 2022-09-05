@@ -79,16 +79,16 @@ set +x
 fi
 }
 
-tendermint() {
-  
+install_tendermint() {
+
 if [[ ! -f $(which tendermint) ]]
 then
   git clone --depth 1 https://github.com/tendermint/tendermint
   cd tendermint
   make install
 fi
-
 }
+
 main () {
   sleep 2
   install_packages
