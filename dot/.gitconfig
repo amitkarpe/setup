@@ -1,0 +1,18 @@
+[user]
+	name = Amit Karpe
+	email = amitkarpe@gmail.com
+[credential]
+	username = amitkarpe
+	helper = store
+	host = github.com
+	writelog = true
+[core]
+	autocrlf = false
+	longpaths = true
+	editor = vim
+	excludesfile = "~/.gitignore_global"
+[color]
+	ui = auto
+	status = auto
+	branch = auto
+	diff = auto
