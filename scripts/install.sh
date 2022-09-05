@@ -45,6 +45,7 @@ then
   export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
   echo 'export GOPATH=$HOME/go' >> ~/.bashrc
   echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.bashrc
+  sudo rm -rf go 1.18.5.linux-amd64.tar.gz
   source ~/.bashrc
 fi
 go version
