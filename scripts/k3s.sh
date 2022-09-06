@@ -41,7 +41,7 @@ if [[ -f /usr/bin/apt-get ]]
 then
   sudo apt-get update -y # && sudo apt-get upgrade -y
   sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release bat
-  mkdir -p ~/bin; ln -s /usr/bin/batcat ~/bin/bat
+  mkdir -p ~/bin; ln -s /usr/bin/batcat ~/bin/bat || true
 fi
 
 install_docker() {
