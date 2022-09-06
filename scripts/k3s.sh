@@ -16,7 +16,7 @@ install_k3s() {
   k3sup install --local --k3s-version v1.24.4+k3s1 \
   --print-command \
   --print-config \
-  --tls-san  ${host} \
+  --tls-san  ${IP} \
   --k3s-extra-args '--write-kubeconfig-mode 644 ' \
   --local-path $HOME/.kube/config
 
