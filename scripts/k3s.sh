@@ -17,7 +17,7 @@ install_k3s() {
   --print-command \
   --print-config \
   --tls-san  ${host} \
-  --k3s-extra-args '--write-kubeconfig-mode 644 --docker' \
+  --k3s-extra-args '--write-kubeconfig-mode 644 ' \
   --local-path $HOME/.kube/config
 
 }
