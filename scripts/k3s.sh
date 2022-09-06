@@ -16,20 +16,9 @@ install_k3s() {
   --print-command \
   --print-config \
   --tls-san ${IP} \
-  --k3s-extra-args '--write-kubeconfig-mode 644' \
+  --k3s-extra-args '--write-kubeconfig-mode 644 --docker' \
   --local-path $HOME/.kube/config
 
-
-  # sudo chmod +r /etc/rancher/k3s/k3s.yaml
-  # mkdir -p ~/.kube
-  # cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
-  # chmod 600 ~/.kube/config
-  # export KUBECONFIG=~/.kube/config
-  # echo "\n\n"
-  # cat /etc/rancher/k3s/k3s.yaml
-  # echo "\n\n"
-  # kubectl config view
-  # kubectl get node
 }
 
 install_rancher() {
@@ -45,17 +34,17 @@ install_rancher() {
     --version v1.7.1 \
     --wait
 
-  kubectl get pods --namespace cert-manager; kubectl get svc --namespace cert-manager 
-  kubectl get services -o wide traefik -n kube-system -o json | jq -r '.status.loadBalancer.ingress[].ip'
+  # kubectl get pods --namespace cert-manager; kubectl get svc --namespace cert-manager 
+  # kubectl get services -o wide traefik -n kube-system -o json | jq -r '.status.loadBalancer.ingress[].ip'
 
   helm install rancher rancher-stable/rancher \
     --namespace cattle-system \
     --create-namespace \
     --set hostname=${host} \
-    --set bootstrapPassword=longpasswordIjw92319oDOXXXXX \
+    --set bootstrapPassword=password \
     --wait
-  kubectl -n cattle-system get deploy rancher 
-  kubectl get services -o wide traefik -n kube-system
+  # kubectl -n cattle-system get deploy rancher 
+  # kubectl get services -o wide traefik -n kube-system
 
 }
 
