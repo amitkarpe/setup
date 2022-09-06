@@ -85,26 +85,9 @@ install_tools() {
 }
 
 install_packages() {
-if [[ -f /usr/bin/apt-get ]]
-then
   sudo apt-get update -y # && sudo apt-get upgrade -y
   sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release bat
   mkdir -p ~/bin; ln -s /usr/bin/batcat ~/bin/bat || true
-fi
-}
-
-install_docker() {
-
-if [[ ! -f $(which docker) ]];
-then
-  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
-  sudo sh /tmp/get-docker.sh
-  sudo usermod -a -G docker ubuntu
-  # sudo chmod 666 /var/run/docker.sock
-  # sudo systemctl enable docker --now
-  # sudo systemctl status docker --no-pager
-fi
-docker version || true
 }
 
 main () {
