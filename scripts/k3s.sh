@@ -4,18 +4,6 @@
 set -e
 
 install_k3s() {
-  export cmd=kubectl
-  export path=/usr/local/bin/${cmd}
-  if [[ -f ${path} ]] 
-  then
-  printf "\n${cmd} is installed\n"
-  else
-  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  sudo install -o root -g root -m 0755 ${cmd} ${path}
-  printf "\n \n \n"
-  kubectl version --short --client
-  printf "\n \n \n"
-  fi
   export INSTALL_K3S_CHANNEL='stable'
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
   if [[ ! -f $(which k3s) ]]
@@ -28,12 +16,71 @@ install_k3s() {
   sudo chmod +r /etc/rancher/k3s/k3s.yaml
   mkdir -p ~/.kube
   cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
+  chmod 600 ~/.kube/config
   export KUBECONFIG=~/.kube/config
   echo "\n\n"
   cat /etc/rancher/k3s/k3s.yaml
   echo "\n\n"
   kubectl config view
   kubectl get node
+}
+
+install_rancher() {
+  IP=$(curl -s ipconfig.io); echo $IP
+  helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+  helm repo add jetstack https://charts.jetstack.io
+
+  kubectl get services -o wide traefik -n kube-system -o json | jq -r '.status.loadBalancer.ingress[].ip'
+
+  helm install cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --create-namespace \
+    --set installCRDs=true \
+    --version v1.7.1 \
+    --wait
+
+  kubectl get pods --namespace cert-manager; kubectl get svc --namespace cert-manager 
+
+  helm install rancher rancher-stable/rancher \
+    --namespace cattle-system \
+    --create-namespace \
+    --set hostname=${IP} \
+    --set bootstrapPassword=longpasswordIjw92319oDOXXXXX \
+    --wait
+
+  echo https://rancher.cicd.liquidityone.io/dashboard/?setup=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}')
+
+  #kubectl -n cattle-system rollout status deploy/rancher
+  kubectl -n cattle-system get deploy rancher 
+
+}
+
+install_tools() {
+  export cmd=kubectl
+  export cmdpath=/usr/local/bin/${cmd}
+  if [[ -f ${cmdpath} ]] 
+  then
+  printf "\n${cmd} is installed\n"
+  else
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  sudo install -o root -g root -m 0755 ${cmd} ${cmdpath}
+  printf "\n \n \n"
+  kubectl version --short --client
+  printf "\n \n \n"
+  fi
+
+  export cmd=helm
+  export cmdpath=/usr/local/bin/${cmd}
+  if [[ -f ${cmdpath} ]] 
+  then
+  printf "\n${cmd} is installed\n"
+  else
+  curl -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
+  printf "\n \n \n"
+  helm version
+  printf "\n \n \n"
+  fi
 }
 
 install_packages() {
@@ -43,6 +90,7 @@ then
   sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release bat
   mkdir -p ~/bin; ln -s /usr/bin/batcat ~/bin/bat || true
 fi
+}
 
 install_docker() {
 
@@ -61,8 +109,9 @@ docker version || true
 main () {
   sleep 2
   install_packages
-  # install_docker
+  install_tools
   install_k3s
+  install_rancher
 }
 
 main
