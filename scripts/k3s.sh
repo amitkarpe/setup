@@ -27,7 +27,7 @@ install_rancher() {
     --set installCRDs=true \
     --version v1.7.1 \
     --wait
-  sleep 60
+  sleep 120
   # kubectl get pods --namespace cert-manager; kubectl get svc --namespace cert-manager 
   # kubectl get services -o wide traefik -n kube-system -o json | jq -r '.status.loadBalancer.ingress[].ip'
   kubectl get services -o wide traefik -n kube-system
@@ -39,9 +39,9 @@ install_rancher() {
     --wait
   # kubectl -n cattle-system get deploy rancher 
   kubectl get services -o wide traefik -n kube-system
-  kubectl get Issuer,Certificate,csr -A
-  kubectl describe Certificate -n cattle-system
   kubectl describe Issuer -n cattle-system
+  kubectl describe Certificate -n cattle-system
+  kubectl get Issuer,Certificate,csr -A
 }
 
 install_tools() {
