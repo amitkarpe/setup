@@ -8,6 +8,7 @@ install_k3s() {
   # curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
   # k3s --version
   export IP=$(curl -s ipconfig.io); echo $IP
+  mkdir -p ~/.kube
 
   curl -sLS https://get.k3sup.dev | sh
   sudo install k3sup /usr/local/bin/
@@ -57,30 +58,26 @@ install_rancher() {
 }
 
 install_tools() {
-  export cmd=kubectl
-  export cmdpath=/usr/local/bin/${cmd}
-  if [[ -f ${cmdpath} ]] 
+  if [[ ! -f $(which kubectl) ]];
   then
-  printf "\n${cmd} is installed\n"
-  else
-  curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  sudo install -o root -g root -m 0755 ${cmd} ${cmdpath}
-  printf "\n \n \n"
-  kubectl version --short --client
-  printf "\n \n \n"
+    printf "\n${cmd} is installed\n"
+    else
+    curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo install -o root -g root -m 0755 ${cmd} ${cmdpath}
+    printf "\n \n \n"
+    kubectl version --short --client
+    printf "\n \n \n"
   fi
 
-  export cmd=helm
-  export cmdpath=/usr/local/bin/${cmd}
-  if [[ -f ${cmdpath} ]] 
-  then
-  printf "\n${cmd} is installed\n"
-  else
-  curl -s -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-  # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
-  printf "\n \n \n"
-  helm version
-  printf "\n \n \n"
+  if [[ ! -f $(which helm) ]];
+    then
+    printf "\n${cmd} is installed\n"
+    else
+    curl -s -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
+    printf "\n \n \n"
+    helm version
+    printf "\n \n \n"
   fi
 }
 
@@ -100,9 +97,12 @@ docker version || true
 }
 
 install_packages() {
-  sudo apt-get update -y # && sudo apt-get upgrade -y
-  sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release bat
-  mkdir -p ~/bin; ln -s /usr/bin/batcat ~/bin/bat || true
+  if [[ ! -f $(which jq) ]];
+  then
+    sudo apt-get update -y # && sudo apt-get upgrade -y
+    sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release bat
+    mkdir -p ~/bin; ln -s /usr/bin/batcat ~/bin/bat || true
+  fi
 }
 
 main () {
