@@ -16,7 +16,7 @@ install_k3s() {
   k3sup install --local --k3s-version v1.24.4+k3s1 \
   --print-command \
   --print-config \
-  --tls-san  ${IP} \
+  --tls-san ${IP} \
   --k3s-extra-args '--write-kubeconfig-mode 644 ' \
   --local-path $HOME/.kube/config
 
@@ -46,6 +46,9 @@ install_rancher() {
     --wait
   # kubectl -n cattle-system get deploy rancher 
   # kubectl get services -o wide traefik -n kube-system
+  kubectl get Issuer,Certificate,csr -A
+  kubectl describe Certificate -n cattle-system
+  kubectl describe Issuer -n cattle-system
 
 }
 
