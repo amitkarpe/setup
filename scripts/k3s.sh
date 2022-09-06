@@ -8,6 +8,7 @@ install_k3s() {
   # curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
   # k3s --version
   export IP=$(curl -s ipconfig.io); echo $IP
+  export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
   mkdir -p ~/.kube
 
   curl -sLS https://get.k3sup.dev | sh
@@ -15,7 +16,7 @@ install_k3s() {
   k3sup install --local --k3s-version v1.24.4+k3s1 \
   --print-command \
   --print-config \
-  --tls-san ${IP} \
+  --tls-san ${IP}, ${host} \
   --k3s-extra-args '--write-kubeconfig-mode 644 --docker' \
   --local-path $HOME/.kube/config
 
