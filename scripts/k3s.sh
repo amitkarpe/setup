@@ -1,15 +1,12 @@
 
-#!/usr/bin/zsh
+#!/usr/bin/bash
 
 set -e
 
 install_k3s() {
   export INSTALL_K3S_CHANNEL='stable'
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
-  if [[ ! -f $(which k3s) ]]
-  then
-    curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
-  fi
+  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
   k3s --version
   sudo usermod -a -G docker ubuntu
   sudo systemctl enable docker --now; sudo systemctl status docker --no-pager; docker run hello-world
