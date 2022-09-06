@@ -6,7 +6,6 @@ install_k3s() {
   export IP=$(curl -s ipconfig.io); echo $IP
   export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
   mkdir -p ~/.kube
-
   curl -sLS https://get.k3sup.dev | sh
   sudo install k3sup /usr/local/bin/
   k3sup install --local --k3s-version v1.24.4+k3s1 \
@@ -28,10 +27,10 @@ install_rancher() {
     --set installCRDs=true \
     --version v1.7.1 \
     --wait
-  sleep 30
+  sleep 60
   # kubectl get pods --namespace cert-manager; kubectl get svc --namespace cert-manager 
   # kubectl get services -o wide traefik -n kube-system -o json | jq -r '.status.loadBalancer.ingress[].ip'
-
+  kubectl get services -o wide traefik -n kube-system
   helm install rancher rancher-stable/rancher \
     --namespace cattle-system \
     --create-namespace \
@@ -39,7 +38,7 @@ install_rancher() {
     --set bootstrapPassword=password \
     --wait
   # kubectl -n cattle-system get deploy rancher 
-  # kubectl get services -o wide traefik -n kube-system
+  kubectl get services -o wide traefik -n kube-system
   kubectl get Issuer,Certificate,csr -A
   kubectl describe Certificate -n cattle-system
   kubectl describe Issuer -n cattle-system
