@@ -3,10 +3,6 @@
 set -e
 
 install_k3s() {
-  # export INSTALL_K3S_CHANNEL='stable'
-  # export INSTALL_K3S_VERSION="v1.23.10+k3s1"
-  # curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
-  # k3s --version
   export IP=$(curl -s ipconfig.io); echo $IP
   export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
   mkdir -p ~/.kube
@@ -15,11 +11,9 @@ install_k3s() {
   sudo install k3sup /usr/local/bin/
   k3sup install --local --k3s-version v1.24.4+k3s1 \
   --print-command \
-  --print-config \
   --tls-san ${IP} \
   --k3s-extra-args '--write-kubeconfig-mode 644 ' \
   --local-path $HOME/.kube/config
-
 }
 
 install_rancher() {
@@ -49,7 +43,6 @@ install_rancher() {
   kubectl get Issuer,Certificate,csr -A
   kubectl describe Certificate -n cattle-system
   kubectl describe Issuer -n cattle-system
-
 }
 
 install_tools() {
