@@ -5,7 +5,7 @@ set -e
 install_k3s() {
   export INSTALL_K3S_CHANNEL='stable'
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
-  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
+  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
   k3s --version
   # sudo usermod -a -G docker ubuntu
   # sudo systemctl enable docker --now; sudo systemctl status docker --no-pager; docker run hello-world
@@ -14,9 +14,9 @@ install_k3s() {
   cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
   chmod 600 ~/.kube/config
   export KUBECONFIG=~/.kube/config
-  echo "\n\n"
-  cat /etc/rancher/k3s/k3s.yaml
-  echo "\n\n"
+  # echo "\n\n"
+  # cat /etc/rancher/k3s/k3s.yaml
+  # echo "\n\n"
   kubectl config view
   kubectl get node
 }
@@ -26,7 +26,7 @@ install_rancher() {
   export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
   helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
   helm repo add jetstack https://charts.jetstack.io
-
+  sleep 2
   kubectl get services -o wide traefik -n kube-system -o json | jq -r '.status.loadBalancer.ingress[].ip'
 
   helm install cert-manager jetstack/cert-manager \
@@ -44,10 +44,6 @@ install_rancher() {
     --set hostname=${host} \
     --set bootstrapPassword=longpasswordIjw92319oDOXXXXX \
     --wait
-
-  echo https://rancher.cicd.liquidityone.io/dashboard/?setup=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}')
-
-  #kubectl -n cattle-system rollout status deploy/rancher
   kubectl -n cattle-system get deploy rancher 
 
 }
@@ -59,7 +55,7 @@ install_tools() {
   then
   printf "\n${cmd} is installed\n"
   else
-  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
   sudo install -o root -g root -m 0755 ${cmd} ${cmdpath}
   printf "\n \n \n"
   kubectl version --short --client
@@ -72,7 +68,7 @@ install_tools() {
   then
   printf "\n${cmd} is installed\n"
   else
-  curl -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  curl -s -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
   # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
   printf "\n \n \n"
   helm version
