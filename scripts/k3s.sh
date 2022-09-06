@@ -27,7 +27,7 @@ install_rancher() {
     --set installCRDs=true \
     --version v1.7.1 \
     --wait
-  sleep 10
+  # sleep 10
   # kubectl get pods --namespace cert-manager; kubectl get svc --namespace cert-manager 
   # kubectl get services -o wide traefik -n kube-system -o json | jq -r '.status.loadBalancer.ingress[].ip'
   kubectl get services -o wide traefik -n kube-system
@@ -36,8 +36,8 @@ install_rancher() {
     --create-namespace \
     --set hostname=${host} \
     --set bootstrapPassword=password \
-    --set ingress.tls.source=rancher \
-    --wait
+    --set ingress.tls.source=rancher 
+    # --wait
   # kubectl -n cattle-system get deploy rancher 
   kubectl get services -o wide traefik -n kube-system
   kubectl describe Issuer -n cattle-system
