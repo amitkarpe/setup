@@ -1,25 +1,141 @@
-# https://k3s.io/
-# https://github.com/k3s-io/k3s
 
-#sudo systemctl enable docker
-#sudo service docker start
+#!/usr/bin/bash
 
-#curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker
+set -e
 
-# curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 777 --docker --no-deploy traefik
+install_k3s() {
+  export cmd=kubectl
+  export path=/usr/local/bin/${cmd}
+  if [[ -f ${path} ]] 
+  then
+  printf "\n${cmd} is installed\n"
+  else
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  sudo install -o root -g root -m 0755 ${cmd} ${path}
+  printf "\n \n \n"
+  kubectl version --short --client
+  printf "\n \n \n"
+  fi
+  export INSTALL_K3S_CHANNEL='stable'
+  export INSTALL_K3S_VERSION="v1.23.10+k3s1"
+  if [[ ! -f $(which k3s) ]]
+  then
+    curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
+  fi
+  k3s --version
+  sudo usermod -a -G docker ubuntu
+  sudo systemctl enable docker --now; sudo systemctl status docker --no-pager; docker run hello-world
+  sudo chmod +r /etc/rancher/k3s/k3s.yaml
+  mkdir -p ~/.kube
+  cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
+  export KUBECONFIG=~/.kube/config
+  echo "\n\n"
+  cat /etc/rancher/k3s/k3s.yaml
+  echo "\n\n"
+  kubectl config view
+  kubectl get node
+}
 
-export INSTALL_K3S_CHANNEL='stable'
-export INSTALL_K3S_VERSION="v1.23.10+k3s1"
-curl -sfL https://get.k3s.io | sh -
-sudo chmod +r /etc/rancher/k3s/k3s.yaml
-mkdir -p ~/.kube
-cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
-export KUBECONFIG=~/.kube/config
+install_packages() {
+if [[ -f /usr/bin/apt-get ]]
+then
+  sudo apt-get update -y # && sudo apt-get upgrade -y
+  sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release bat
+  mkdir -p ~/bin; ln -s /usr/bin/batcat ~/bin/bat
+fi
+
+if [[ -f /usr/bin/yum ]]
+then
+  sudo yum update --assumeyes;
+  sudo yum install -y curl tree tmux nano unzip vim wget git net-tools bash-completion zsh zsh-completion bind-utils bridge-utils jq
+  sudo amazon-linux-extras install epel docker -y; sudo usermod -a -G docker ec2-user
+  # sudo systemctl enable docker --now; sudo systemctl status docker --no-pager  
+fi
+}
+
+install_dev() {
+if [[ ! -f $(which nvm) ]]
+then
+# https://github.com/nvm-sh/nvm/#installing-and-updating
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+if [[ ! -f $(which node) ]]
+then
+  nvm install 14.7.0
+fi
+nvm version
+node -v
+npm version
 
 
-echo "\n\n"
-cat /etc/rancher/k3s/k3s.yaml
+if [[ ! -f $(which go) ]]
+then
+  curl -OL https://go.dev/dl/go1.18.5.linux-amd64.tar.gz -s
+  sudo tar -C /usr/local -xf go1.18.5.linux-amd64.tar.gz
+  mkdir -p ~/go
+  export GOPATH=$HOME/go
+  export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+  echo 'export GOPATH=$HOME/go' >> ~/.bashrc
+  echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.bashrc
+  sudo rm -rf go 1.18.5.linux-amd64.tar.gz
+  source ~/.bashrc
+fi
+go version
+}
 
-echo "\n\n"
-kubectl config view
-kubectl get node
+install_docker() {
+
+# if [[ -f "/usr/bin/yum"  &&  ! -f "/usr/bin/docker" ]];
+# then
+#   sudo amazon-linux-extras install docker -y
+#   sudo usermod -a -G docker ec2-user
+#   sudo systemctl enable docker --now
+#   sudo systemctl status docker --no-pager
+# fi
+
+if [[ ! -f $(which docker) ]];
+then
+  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+  sudo sh /tmp/get-docker.sh
+  sudo usermod -a -G docker ubuntu
+  # sudo chmod 666 /var/run/docker.sock
+  # sudo systemctl enable docker --now
+  # sudo systemctl status docker --no-pager
+fi
+docker version || true
+
+if [[ ! -f $(which docker-compos) ]]
+then
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -s -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+fi
+docker-compose --version || true
+}
+
+
+install_git() {
+if [[ ! -f  ~/.gitconfig ]]
+then
+set -x
+curl -o ~/.gitconfig https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitconfig
+curl -o ~/.gitignore_global https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitignore_global
+
+export PAGER=''
+# git config --global --list
+cat ~/.gitconfig
+set +x
+fi
+}
+
+
+main () {
+  sleep 2
+  install_packages
+  install_dev
+  install_docker
+}
+
+main
