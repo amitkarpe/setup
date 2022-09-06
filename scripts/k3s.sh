@@ -26,7 +26,8 @@ install_k3s() {
 }
 
 install_rancher() {
-  IP=$(curl -s ipconfig.io); echo $IP
+  export IP=$(curl -s ipconfig.io); echo $IP
+  export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
   helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
   helm repo add jetstack https://charts.jetstack.io
 
@@ -44,7 +45,7 @@ install_rancher() {
   helm install rancher rancher-stable/rancher \
     --namespace cattle-system \
     --create-namespace \
-    --set hostname=${IP} \
+    --set hostname=${host} \
     --set bootstrapPassword=longpasswordIjw92319oDOXXXXX \
     --wait
 
