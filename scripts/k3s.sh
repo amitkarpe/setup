@@ -60,8 +60,6 @@ install_rancher() {
 install_tools() {
   if [[ ! -f $(which kubectl) ]];
   then
-    printf "\n${cmd} is installed\n"
-    else
     curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     sudo install -o root -g root -m 0755 ${cmd} ${cmdpath}
     printf "\n \n \n"
@@ -70,9 +68,7 @@ install_tools() {
   fi
 
   if [[ ! -f $(which helm) ]];
-    then
-    printf "\n${cmd} is installed\n"
-    else
+  then
     curl -s -o- https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
     # curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
     printf "\n \n \n"
