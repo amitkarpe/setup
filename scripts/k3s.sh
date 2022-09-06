@@ -16,7 +16,9 @@ install_k3s() {
   --print-command \
   --print-config \
   --tls-san ${IP} \
+  --k3s-extra-args '--write-kubeconfig-mode 644'
   --local-path $HOME/.kube/config
+
 
   # sudo chmod +r /etc/rancher/k3s/k3s.yaml
   # mkdir -p ~/.kube
@@ -61,7 +63,7 @@ install_tools() {
   if [[ ! -f $(which kubectl) ]];
   then
     curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    sudo install -o root -g root -m 0755 ${cmd} ${cmdpath}
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/
     printf "\n \n \n"
     kubectl version --short --client
     printf "\n \n \n"
@@ -88,8 +90,8 @@ then
   sudo chmod 666 /var/run/docker.sock
   sudo systemctl enable docker --now
   sudo systemctl status docker --no-pager
+  docker version
 fi
-docker version || true
 }
 
 install_packages() {
