@@ -36,6 +36,7 @@ install_rancher() {
     --create-namespace \
     --set hostname=${host} \
     --set bootstrapPassword=password \
+    --set ingress.tls.source=rancher \
     --wait
   # kubectl -n cattle-system get deploy rancher 
   kubectl get services -o wide traefik -n kube-system
