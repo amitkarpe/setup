@@ -1,4 +1,3 @@
-
 #!/usr/bin/bash
 
 set -e
@@ -8,8 +7,8 @@ install_k3s() {
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
   curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
   k3s --version
-  sudo usermod -a -G docker ubuntu
-  sudo systemctl enable docker --now; sudo systemctl status docker --no-pager; docker run hello-world
+  # sudo usermod -a -G docker ubuntu
+  # sudo systemctl enable docker --now; sudo systemctl status docker --no-pager; docker run hello-world
   sudo chmod +r /etc/rancher/k3s/k3s.yaml
   mkdir -p ~/.kube
   cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
@@ -81,6 +80,21 @@ install_tools() {
   fi
 }
 
+
+install_docker() {
+
+if [[ ! -f $(which docker) ]];
+then
+  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+  sudo sh /tmp/get-docker.sh
+  sudo usermod -a -G docker ubuntu
+  sudo chmod 666 /var/run/docker.sock
+  sudo systemctl enable docker --now
+  sudo systemctl status docker --no-pager
+fi
+docker version || true
+}
+
 install_packages() {
   sudo apt-get update -y # && sudo apt-get upgrade -y
   sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release bat
@@ -91,6 +105,7 @@ main () {
   sleep 2
   install_packages
   install_tools
+  install_docker
   install_k3s
   install_rancher
 }
