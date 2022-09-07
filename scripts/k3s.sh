@@ -13,7 +13,7 @@ install_k3s() {
   # sudo chmod +r /etc/rancher/k3s/k3s.yaml
   mkdir -p ~/.kube
   cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
-  # chmod 600 ~/.kube/config
+  chmod 600 ~/.kube/config
   export KUBECONFIG=~/.kube/config
 }
 
