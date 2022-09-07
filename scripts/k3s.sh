@@ -5,7 +5,7 @@ set -e
 install_k3s() {
   export INSTALL_K3S_CHANNEL='stable'
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
-  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
+  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
   k3s --version
   sudo chmod +r /etc/rancher/k3s/k3s.yaml
   mkdir -p ~/.kube
