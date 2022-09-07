@@ -80,7 +80,6 @@ main () {
   sleep 2
   install_packages
   install_tools
-  install_docker
   install_k3s
   install_rancher
 }
