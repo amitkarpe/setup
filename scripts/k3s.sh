@@ -6,31 +6,16 @@ install_k3s() {
   export INSTALL_K3S_CHANNEL='stable'
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
   # https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/#cluster-options  
-  # Use docker instead of containerd
-  # curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
+  # Use containerd
+  # No --tls-san used
   curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
-  k3s --version
-  sudo chmod +r /etc/rancher/k3s/k3s.yaml
+  # k3s --version
+  # sudo chmod +r /etc/rancher/k3s/k3s.yaml
   mkdir -p ~/.kube
   cp -v /etc/rancher/k3s/k3s.yaml ~/.kube/config
-  chmod 600 ~/.kube/config
+  # chmod 600 ~/.kube/config
   export KUBECONFIG=~/.kube/config
 }
-
-# install_k3s() {
-#  https://github.com/alexellis/k3sup
-#   export IP=$(curl -s ipconfig.io); echo $IP
-#   export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
-#   mkdir -p ~/.kube
-#   curl -sLS https://get.k3sup.dev | sh
-#   sudo install k3sup /usr/local/bin/
-#   k3sup install --local --k3s-version v1.24.4+k3s1 \
-#   --print-command \
-#   --tls-san ${IP} \
-#   # --k3s-extra-args '--write-kubeconfig-mode 644 --docker' \
-#   --local-path $HOME/.kube/config
-#   chmod 644 $HOME/.kube/config
-# }
 
 install_rancher() {
   export IP=$(curl -s ipconfig.io); echo $IP
@@ -80,21 +65,6 @@ install_tools() {
     helm version
     printf "\n \n \n"
   fi
-}
-
-
-install_docker() {
-
-if [[ ! -f $(which docker) ]];
-then
-  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
-  sudo sh /tmp/get-docker.sh
-  sudo usermod -a -G docker ubuntu
-  sudo chmod 666 /var/run/docker.sock
-  sudo systemctl enable docker --now
-  sudo systemctl status docker --no-pager
-  docker version
-fi
 }
 
 install_packages() {

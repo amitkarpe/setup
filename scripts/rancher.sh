@@ -3,6 +3,8 @@
 set -e
 
 install_k3s() {
+  # https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/#cluster-options  
+  # Use docker instead of containerd
   export IP=$(curl -s ipconfig.io); echo $IP
   export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
   mkdir -p ~/.kube
@@ -11,7 +13,7 @@ install_k3s() {
   k3sup install --local --k3s-version v1.24.4+k3s1 \
   --print-command \
   --tls-san ${IP} \
-  # --k3s-extra-args '--write-kubeconfig-mode 644 --docker' \
+  --k3s-extra-args '--write-kubeconfig-mode 644 --docker' \
   --local-path $HOME/.kube/config
   chmod 644 $HOME/.kube/config
 }
