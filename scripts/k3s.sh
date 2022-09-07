@@ -5,7 +5,10 @@ set -e
 install_k3s() {
   export INSTALL_K3S_CHANNEL='stable'
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
-  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
+  # https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/#cluster-options  
+  # Use docker instead of containerd
+  # curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --docker
+  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
   k3s --version
   sudo chmod +r /etc/rancher/k3s/k3s.yaml
   mkdir -p ~/.kube
@@ -15,6 +18,7 @@ install_k3s() {
 }
 
 # install_k3s() {
+#  https://github.com/alexellis/k3sup
 #   export IP=$(curl -s ipconfig.io); echo $IP
 #   export host=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname); echo $host
 #   mkdir -p ~/.kube
