@@ -2,6 +2,7 @@
 
 set -e
 
+# Install Rancher and K3S with Docker
 install_k3s() {
   # https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/#cluster-options  
   # Use docker instead of containerd

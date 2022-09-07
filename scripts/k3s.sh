@@ -2,6 +2,7 @@
 
 set -e
 
+# Install Rancher and K3S without Docker
 install_k3s() {
   export INSTALL_K3S_CHANNEL='stable'
   export INSTALL_K3S_VERSION="v1.23.10+k3s1"
