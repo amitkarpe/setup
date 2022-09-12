@@ -11,15 +11,17 @@ curl -o ~/.zshrc https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.zsh
 curl -OL https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.zshrc_extra
 curl -o ~/.p10k.zsh https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.p10k.zsh
 # sudo chsh -s /usr/bin/zsh ${USER}
-sudo usermod $USER -s /usr/bin/zsh
+[[ ! -f $(which usermod) ]] || sudo usermod $USER -s /usr/bin/zsh
+
 setup_zsh;
 # source ~/.zshrc
 exec zsh
 }
 
 setup_zsh () {
-echo "LC_ALL=en_US.UTF-8" | sudo tee -a /etc/environment
-echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
+
+#echo "LC_ALL=en_US.UTF-8" | sudo tee -a /etc/environment
+#echo "LANG=en_US.utf-8" | sudo tee -a /etc/environment
 
 echo "Setup started"
 #source ~/.zshrc
