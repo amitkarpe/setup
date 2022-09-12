@@ -64,8 +64,11 @@ echo 'alias kctx="kubectl-ctx"
 alias k="kubectl"
 alias kns="kubectl-ns"'  >> ~/.zshrc
 sudo git clone --depth=1  https://github.com/ahmetb/kubectx /opt/kubectx
-sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
-sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+
+[[ -f /usr/local/bin/kubens ]] || sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+[[ -f /usr/local/bin/kubectx ]] || sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+
+
 echo "Run: source ~/.zshrc"
 
 }
