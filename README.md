@@ -18,13 +18,3 @@ Common for zsh
 curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/scripts/zsh.sh | zsh
 ```
 
-For Advance system setup, run
-```
-curl -o- https://raw.githubusercontent.com/amitkarpe/setup2/main/amazon.sh | bash
-```
-
-
-For Advance system setup, run
-```
-curl -o- https://raw.githubusercontent.com/amitkarpe/setup2/main/ubuntu.sh | bash
-```
