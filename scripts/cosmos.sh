@@ -45,17 +45,16 @@ go version
 
 }
 
+# Install Docker 
 install_docker() {
-
 if [[ ! -f $(which docker) ]];
 then
   curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
   sudo sh /tmp/get-docker.sh
   sudo usermod -a -G docker ubuntu
   # sudo chmod 666 /var/run/docker.sock
-  # sudo systemctl enable docker --now
-  # sudo systemctl status docker --no-pager
-  
+  sudo systemctl enable docker --now
+  sudo systemctl status docker --no-pager
   echo "export DOCKER_BUILDKIT=1" | tee -a .profile
 fi
 docker version || true
@@ -93,13 +92,27 @@ then
 fi
 }
 
+install_git() {
+if [[ ! -f  ~/.gitconfig ]]
+then
+  set -x
+  curl -o ~/.gitconfig https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitconfig
+  curl -o ~/.gitignore_global https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitignore_global
+
+  export PAGER=''
+  # git config --global --list
+  cat ~/.gitconfig
+  set +x
+fi
+}
+
 main () {
   sleep 2
   install_packages
   install_dev
   install_tendermint
-  # install_docker
-  # install_git
+  install_docker
+  install_git
 }
 
 main
