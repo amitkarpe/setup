@@ -55,7 +55,7 @@ then
   # sudo chmod 666 /var/run/docker.sock
   sudo systemctl enable docker --now
   sudo systemctl status docker --no-pager
-  echo "export DOCKER_BUILDKIT=1" | tee -a .profile
+  echo "export DOCKER_BUILDKIT=1" | tee -a ~/.profile
 fi
 docker version || true
 
