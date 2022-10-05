@@ -110,7 +110,7 @@ main () {
   sleep 2
   install_packages
   install_dev
-  install_tendermint
+  #install_tendermint
   install_docker
   install_git
 }
