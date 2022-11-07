@@ -113,6 +113,7 @@ main () {
   #install_tendermint
   #install_docker
   install_git
+  curl https://get.ignite.com/cli! | sudo bash
 }
 
 main
