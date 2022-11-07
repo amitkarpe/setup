@@ -111,7 +111,7 @@ main () {
   install_packages
   install_dev
   #install_tendermint
-  install_docker
+  #install_docker
   install_git
 }
 
