@@ -30,7 +30,7 @@ then
 fi
 if [[ ! -f $(which node) ]]
 then
-  nvm install 14.7.0
+  nvm install 14.21.0
 fi
 nvm version
 node -v
