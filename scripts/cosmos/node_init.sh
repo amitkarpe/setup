@@ -1,9 +1,9 @@
 #!/bin/bash
-set -x
+# set -x
 set -e
 export dbin="simd"
 export dhome="${HOME}/.simapp"
-rm -rf $DHOME || true
+rm -rf $dhome || true
 $dbin config chain-id demo
 $dbin config keyring-backend test
 $dbin keys add alice
@@ -26,6 +26,16 @@ $dbin gentx alice 1000000stake --chain-id demo
 #$dbin gentx bob   1000000stake --chain-id demo
 $dbin collect-gentxs
 
+echo "Setup following parameters in config.toml"
+echo '
+create_empty_blocks = false
+create_empty_blocks_interval = "30s"
+timeout_commit = "30s"
+'
+
+cat $dhome/config/config.toml | grep -E 'create_empty_blocks_interval|create_empty_blocks|timeout_commit'
+
+echo $(curl -s ifconfig.io)
 echo "$dbin start --rpc.laddr tcp://0.0.0.0:26657 \
 --api.enable \
 --api.enabled-unsafe-cors \
