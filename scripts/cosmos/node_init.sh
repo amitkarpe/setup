@@ -3,26 +3,24 @@
 set -e
 export dbin="simd"
 export dhome="${HOME}/.simapp"
+export chain_id=iochain
+# Clear old data and config
+$dbin tendermint unsafe-reset-all
 rm -rf $dhome || true
-$dbin config chain-id demo
+
+# Setup new node
+$dbin config chain-id $chain_id
 $dbin config keyring-backend test
-$dbin keys add alice
-$dbin keys add bob
-export val1m="spin fine pulse benefit repair legend lion hospital crumble chicken turn toward accuse style wine staff speed sniff vivid agree borrow primary hotel wine"
-export val2m="upon chicken word garlic palm useless machine tribe ahead extend reunion dumb resist switch rhythm steak name aerobic render burger improve autumn spread dust"
-echo $val1m | $dbin keys add val1 --recover
-echo $val2m | $dbin keys add val2 --recover
-$dbin init test --chain-id demo
-# update genesis
-$dbin add-genesis-account alice 1000000000stake
-$dbin add-genesis-account bob   1000000000stake
-$dbin add-genesis-account val1  1000000000stake
-$dbin add-genesis-account val2  1000000000stake
+$dbin init masternode 
+$dbin config 
+
+./create_accounts.sh
+
 #$dbin add-genesis-account bob 100000mini --keyring-backend test
 #dasel put string -f ~/.minid/config/genesis.json '.app_state.staking.params.bond_denom' 'mini'
 #dasel put string -f ~/.minid/config/genesis.json '.app_state.mint.params.mint_denom' "mini"
 # create default validator
-$dbin gentx alice 1000000stake --chain-id demo
+$dbin gentx alice 1000000stake 
 #$dbin gentx bob   1000000stake --chain-id demo
 $dbin collect-gentxs
 
