@@ -31,6 +31,7 @@ export publickey=$($dbin tendermint show-validator); echo $publickey
 
 curl -s ${IP}:26657/genesis | jq .result.genesis > $dhome/config/genesis.json
 $dbin validate-genesis
+# if [[ $(sha256sum $dhome/config/genesis.json | awk '{print $1}') = "58f17545056267f57a2d95f4c9c00ac1d689a580e220c5d4de96570fbbc832e1" ]]; then echo "OK"; else echo "MISMATCHED"; fi;
 
 ID=$(curl -s http://${IP}:26657/status | jq -r .result.node_info.id);
 echo "Node ID: $ID"
