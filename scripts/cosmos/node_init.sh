@@ -14,7 +14,8 @@ $dbin config keyring-backend test
 $dbin init masternode 
 $dbin config 
 
-./create_accounts.sh
+# Create new accounts
+./create_accounts.sh > /dev/null 2>&1
 
 #$dbin add-genesis-account bob 100000mini --keyring-backend test
 #dasel put string -f ~/.minid/config/genesis.json '.app_state.staking.params.bond_denom' 'mini'

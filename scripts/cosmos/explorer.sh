@@ -1,17 +1,19 @@
 #!/bin/bash
 set -e
-export IP=$1
+export IP=$(curl -s ifconfig.io)
 
 node -v
+echo "Run following command if node is older than 14.8"
+echo "nvm install 14.21.0"
 npm install yarn -g
 
-#git clone https://github.com/ping-pub/explorer
-#cd explorer
+git clone https://github.com/ping-pub/explorer ~/explorer
+cd ~/explorer
 rm -rf src/chains/mainnet/*.* src/chains/testnet/*.*
 
-cat <<EOF > src/chains/mainnet/demo.json
+cat <<EOF > src/chains/mainnet/iochain.json
 {
-    "chain_name": "demo",
+    "chain_name": "iochain",
     "coingecko": "",
     "api": ["http://${IP}:1317"],
     "rpc": ["http://${IP}:26657"],
