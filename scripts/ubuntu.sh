@@ -3,7 +3,7 @@
 set -e
 
 install_packages() {
-if [[ ! -f $(which apt-get) ]]
+if [[ ! -f $(which zsh) ]]
 then
   sudo apt-get update -y # && sudo apt-get upgrade -y
   sudo apt-get install -y tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release
