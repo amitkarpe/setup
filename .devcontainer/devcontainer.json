@@ -1,0 +1,9 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+	"ghcr.io/withfig/features/fig:1": {},
+	"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {},
+	"ghcr.io/guiyomh/features/vim:0": {},
+	"ghcr.io/eitsupi/devcontainer-features/jq-likes:1": {}
+  }
+}
