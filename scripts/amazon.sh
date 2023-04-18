@@ -44,8 +44,9 @@ install_docker () {
 #sudo apt-get update -y
 #sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
-sudo sh /tmp/get-docker.sh || true 
+#curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+#sudo sh /tmp/get-docker.sh || true 
+sudo yum install docker -y
 sudo usermod -a -G docker $USER
 sudo systemctl enable docker
 sudo service docker start
@@ -65,13 +66,17 @@ git config --global user.email "amitkarpe@gmail.com"
 git config --global credential.username amitkarpe
 }
 
+install_git () {
+pip install --upgrade aws-sam-cli
+}
 
 main () {
   sleep 2
   install_packages
-  install_dev
+#  install_dev
   install_docker
   install_git
+  install_sam
 }
 
 main
