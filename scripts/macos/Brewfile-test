@@ -1,0 +1,2 @@
+cask "zoom" unless system "brew list --cask zoom"
+cask "brave-browser" unless system "ls '/Applications/Brave Browser.app'"

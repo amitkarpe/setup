@@ -48,15 +48,63 @@
     },
     "cask": {
       "google-drive": {
-        "version": "73.0.3",
+        "version": "75.0.2",
         "options": {
           "full_name": "google-drive"
         }
       },
       "notion": {
-        "version": "2.1.13",
+        "version": "2.1.15",
         "options": {
           "full_name": "notion"
+        }
+      },
+      "firefox": {
+        "version": "113.0.2",
+        "options": {
+          "full_name": "firefox"
+        }
+      },
+      "google-chrome": {
+        "version": "113.0.5672.126",
+        "options": {
+          "full_name": "google-chrome"
+        }
+      },
+      "slack": {
+        "version": "4.32.122",
+        "options": {
+          "full_name": "slack"
+        }
+      },
+      "evernote": {
+        "version": "10.57.5,4090,793b2427b4",
+        "options": {
+          "full_name": "evernote"
+        }
+      },
+      "telegram": {
+        "version": "9.6.3,245683",
+        "options": {
+          "full_name": "telegram"
+        }
+      },
+      "zoom": {
+        "version": "5.14.7.18149",
+        "options": {
+          "full_name": "zoom"
+        }
+      },
+      "the-unarchiver": {
+        "version": "4.3.5,139,1652457131",
+        "options": {
+          "full_name": "the-unarchiver"
+        }
+      },
+      "fig": {
+        "version": "2.16.0",
+        "options": {
+          "full_name": "fig"
         }
       }
     }
@@ -64,11 +112,11 @@
   "system": {
     "macos": {
       "monterey": {
-        "HOMEBREW_VERSION": "4.0.10",
+        "HOMEBREW_VERSION": "4.0.19",
         "HOMEBREW_PREFIX": "/usr/local",
         "Homebrew/homebrew-core": "api",
         "CLT": "14.0.0.0.1.1661618636",
-        "Xcode": "14.1",
+        "Xcode": "14.2",
         "macOS": "12.6"
       }
     }
