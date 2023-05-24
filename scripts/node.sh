@@ -21,7 +21,7 @@ main () {
 	install_nvm
 	install_node
 	source ~/.zshrc
-	curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/aws-azure-login.sh | sh
+	# curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/aws-azure-login.sh | sh
 }
 
 main
