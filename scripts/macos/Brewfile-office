@@ -1,3 +1,4 @@
+# Install Office ( Microsoft or Apple Applications using mas - Mac App Store applications)
 cask "microsoft-edge"
 
 #cask "microsoft-teams"
@@ -12,17 +13,20 @@ mas "Microsoft PowerPoint", id: 462062816
 mas "Microsoft Word", id: 462054704
 
 # Microsoft Office Tools
-mas "Microsoft Outlook", id: 985367838
-mas "Microsoft Remote Desktop", id: 1295203466
-mas "OneDrive", id: 823766827
+# mas "Microsoft Outlook", id: 985367838
+# mas "Microsoft Remote Desktop", id: 1295203466
+# mas "OneDrive", id: 823766827
 
 # Trello
 mas "Trello", id: 1278508951
 
 # Apple iLife
-mas "iMovie", id: 408981434
+# mas "iMovie", id: 408981434
 
 # Apple iWork
-mas "Pages", id: 409201541
-mas "Keynote", id: 409183694
-mas "Numbers", id: 409203825
+# mas "Pages", id: 409201541
+# mas "Keynote", id: 409183694
+# mas "Numbers", id: 409203825
+
+# Example: https://github.com/Homebrew/homebrew-bundle
+# App Store

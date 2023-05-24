@@ -1,0 +1,12 @@
+# Source: https://github.com/nijicha/install_nodejs_and_yarn_homebrew
+brew asdf
+brew gpg gawk # These are `asdf-nodejs` plugin dependencies
+
+# echo '# asdf ' | tee -a ~/.zshrc
+# echo '[ -s "/$(brew --prefix asdf)/libexec/asdf.sh" ] && . $(brew --prefix asdf)/libexec/asdf.sh' | tee -a ~/.zshrc
+# source ~/.zshrc
+# asdf version
+
+
+
+

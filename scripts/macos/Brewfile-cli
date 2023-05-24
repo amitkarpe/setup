@@ -1,0 +1,4 @@
+brew "cask"
+brew "jq"
+brew "gh" 
+brew "hub"
