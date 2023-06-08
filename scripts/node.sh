@@ -11,17 +11,17 @@ export NVM_DIR="$HOME/.nvm"
 }
 
 install_node() {
-nvm install 14.7.0
+nvm install --lts
 node --version
 npm --version
 nvm --version
+npm install -g yarn
 }
 
 main () {
 	install_nvm
 	install_node
 	source ~/.zshrc
-	# curl -o- https://raw.githubusercontent.com/amitkarpe/setup/main/aws-azure-login.sh | sh
 }
 
 main
