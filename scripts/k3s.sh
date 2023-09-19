@@ -9,7 +9,9 @@ install_k3s() {
   # https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/#cluster-options  
   # Use containerd
   # No --tls-san used
-  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
+  # curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777
+  export IP=$(curl -s ipconfig.io); echo $IP
+  curl -sfL https://get.k3s.io | sh  -s - --write-kubeconfig-mode 777 --tls-san ${IP}
   # k3s --version
   # sudo chmod +r /etc/rancher/k3s/k3s.yaml
   mkdir -p ~/.kube
