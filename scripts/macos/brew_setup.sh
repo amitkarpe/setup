@@ -9,6 +9,7 @@ install_brew () {
     echo "brew command is not installed"
     echo "installing brew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo "export PATH=/opt/homebrew/bin:$PATH" >> ~/.zshrc
   else
     echo "brew command is installed"
   fi
@@ -21,6 +22,8 @@ install_git () {
     echo "git command is not installed"
     echo "installing git"
     brew install git
+    curl -O https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitignore_global
+    curl -O https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitconfig
   else
     echo "git command is installed"
   fi
@@ -68,7 +71,8 @@ install_vscode () {
   then
     echo "vscode command is not installed"
     echo "installing vscode"
-    brew install --cask vscode
+    # brew install --cask vscode
+    brew install --cask visual-studio-code
   else
     echo "vscode command is installed"
   fi
@@ -81,6 +85,7 @@ install_ohmyzsh () {
     echo "ohmyzsh command is not installed"
     echo "installing ohmyzsh"
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    exec zsh
   else
     echo "ohmyzsh command is installed"
   fi
@@ -92,7 +97,10 @@ install_zshautosuggestions () {
   then
     echo "zsh-autosuggestions command is not installed"
     echo "installing zsh-autosuggestions"
-    git clone
+    brew install zsh-autosuggestions
+    echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+    # git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    # source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
   else  
     echo "zsh-autosuggestions command is installed"
   fi
@@ -105,6 +113,10 @@ install_zshsyntaxhighlighting () {
     echo "zsh-syntax-highlighting command is not installed"
     echo "installing zsh-syntax-highlighting"
     git clone
+    # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    # source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    brew install zsh-syntax-highlighting
+    echo "source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshenv
   else
     echo "zsh-syntax-highlighting command is installed"
   fi
@@ -116,7 +128,7 @@ install_zshcompletions () {
   then
     echo "zsh-completions command is not installed"
     echo "installing zsh-completions"
-    git clone
+    # git clone
   else
     echo "zsh-completions command is installed"
   fi
@@ -128,7 +140,7 @@ install_zshhistorysubstringsearch () {
   then
     echo "zsh-history-substring-search command is not installed"
     echo "installing zsh-history-substring-search"
-    git clone
+    # git clone
   else
     echo "zsh-history-substring-search command is installed"
   fi
@@ -145,7 +157,7 @@ main () {
   install_zshautosuggestions
   install_zshsyntaxhighlighting
   install_zshcompletions
-  install_zshhistorysubstringsearch
+  # install_zshhistorysubstringsearch
   
   
   
