@@ -22,6 +22,9 @@ install_git () {
     echo "git command is not installed"
     echo "installing git"
     brew install git
+    brew install --cask git-credential-manager
+    brew install gh
+    gh auth login
     curl -O https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitignore_global
     curl -O https://raw.githubusercontent.com/amitkarpe/setup/main/dot/.gitconfig
   else
@@ -128,6 +131,10 @@ install_zshcompletions () {
   then
     echo "zsh-completions command is not installed"
     echo "installing zsh-completions"
+    brew install zsh-completions
+    echo "Added following line into ~/.zshrc"
+    echo 'FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"'
+
     # git clone
   else
     echo "zsh-completions command is installed"
