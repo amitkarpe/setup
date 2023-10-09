@@ -1,0 +1,3 @@
+# brew bundle --file Brewfile-tf  --no-upgrade -v
+brew "terraform" unless system "brew list terraform"
+brew "terragrunt" unless system "brew list  terragrunt"
