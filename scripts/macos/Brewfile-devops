@@ -1,12 +1,21 @@
 brew "awscli"
-brew "go"
+#brew "go"
 brew "htop"
 brew "jq"
-brew "neovim"
+#brew "neovim"
 cask "fig"
 cask "iterm2"
 cask "the-unarchiver"
 cask "visual-studio-code"
-cask "warp"
-brew "gh" 
-brew "hub"
+cask "warp" unless system "brew list warp"
+brew "gh" unless system "brew list gh"
+brew "hub" unless system "brew list hub"
+
+brew "kubernetes-cli" unless system "brew list kubernetes-cli"
+# kubectl krew search
+# kubectl krew update
+# kubectl krew install whoami ns tree node-shell
+# kubectl plugin list
+brew "krew" unless system "brew list krew"
+
+
