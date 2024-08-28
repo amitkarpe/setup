@@ -7,18 +7,18 @@ tasks:
       - yum groupinstall -y "Development Tools"
       - yum install -y curl git unzip gcc make openssl-devel tar yum-utils procps
 
-  install-rust:
-    cmds:
-      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+#  install-rust:
+#    cmds:
+#      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+#  install-exa:
+#    cmds:
+#      - source $HOME/.cargo/env; cargo install exa
 
   install-gh:
     cmds:
       - yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
       - yum install -y gh
-
-  install-exa:
-    cmds:
-      - source $HOME/.cargo/env; cargo install exa
 
   install-zellij:
     cmds:
@@ -56,9 +56,9 @@ tasks:
   install-all:
     cmds:
       - task: install-base
-      - task: install-rust
+#      - task: install-rust
+#      - task: install-exa
       - task: install-gh
-      - task: install-exa
       - task: install-zellij
       - task: install-brew
       - task: install-additional-tools
@@ -69,7 +69,7 @@ tasks:
   verify:
     cmds:
       #- eval $(cat $HOME/.cargo/env); rustc --version; cargo --version; exa --version
-      - source $HOME/.cargo/env; rustc --version; cargo --version; exa --version
+#      - source $HOME/.cargo/env; rustc --version; cargo --version; exa --version
       - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; source ${HOME}/.bashrc; brew --version
       - gh --version
       - zellij --version
