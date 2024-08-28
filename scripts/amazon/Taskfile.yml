@@ -1,0 +1,81 @@
+version: '3'
+
+tasks:
+  install-base:
+    cmds:
+      - yum update -y
+      - yum groupinstall -y "Development Tools"
+      - yum install -y curl git unzip gcc make openssl-devel tar yum-utils procps
+
+  install-rust:
+    cmds:
+      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+  install-gh:
+    cmds:
+      - yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+      - yum install -y gh
+
+  install-exa:
+    cmds:
+      - source $HOME/.cargo/env; cargo install exa
+
+  install-zellij:
+    cmds:
+      - curl -OL https://github.com/zellij-org/zellij/releases/download/v0.40.1/zellij-x86_64-unknown-linux-musl.tar.gz
+      - tar -xvf zellij-x86_64-unknown-linux-musl.tar.gz
+      - chmod +x zellij
+      - mv zellij /usr/local/bin/
+
+
+  install-brew:
+    cmds:
+      - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"  </dev/null
+      - echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.bashrc
+      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      - source ${HOME}/.bashrc
+
+  install-additional-tools:
+    cmds:
+      - source /root/.bashrc; brew install lazygit starship jesseduffield/lazydocker/lazydocker docker eza
+
+  install-terraform:
+    cmds:
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum -y install terraform
+
+  install-terragrunt:
+    cmds:
+      - curl -o /usr/local/bin/terragrunt -L "https://github.com/gruntwork-io/terragrunt/releases/download/v0.45.0/terragrunt_linux_amd64"
+      - chmod +x /usr/local/bin/terragrunt
+
+  install-packer:
+    cmds:
+      - yum -y install packer
+
+  install-all:
+    cmds:
+      - task: install-base
+      - task: install-rust
+      - task: install-gh
+      - task: install-exa
+      - task: install-zellij
+      - task: install-brew
+      - task: install-additional-tools
+      - task: install-terraform
+      - task: install-terragrunt
+      - task: install-packer
+
+  verify:
+    cmds:
+      #- eval $(cat $HOME/.cargo/env); rustc --version; cargo --version; exa --version
+      - source $HOME/.cargo/env; rustc --version; cargo --version; exa --version
+      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; source ${HOME}/.bashrc; brew --version
+      - gh --version
+      - zellij --version
+      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; lazygit --version
+      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; starship --version
+      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; lazydocker --version
+      - terraform --version
+      - terragrunt --version
+      #- packer --version

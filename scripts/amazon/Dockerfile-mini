@@ -1,0 +1,16 @@
+FROM amazonlinux:2
+
+# Install basic tools and development packages
+RUN yum install -y tar gzip
+#RUN yum update -y && \
+#    yum groupinstall -y "Development Tools" && \
+#    yum install -y curl git unzip gcc make openssl-devel perl-IPC-Cmd tar gzip
+
+# Install Taskfile
+RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+
+# Set the working directory
+WORKDIR /app
+
+# Set the default command
+CMD ["/bin/bash"]
