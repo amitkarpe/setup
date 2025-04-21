@@ -42,7 +42,8 @@ sudo apt-get install -y --no-install-recommends \
     conda \
     awscli \
     squashfs-tools \
-    fuse2fs
+    fuse2fs \
+    s3fs
     
 
 # Add user to docker group
