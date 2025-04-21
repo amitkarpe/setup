@@ -43,6 +43,51 @@ else
     errors=$((errors + 1))
 fi
 
+# --- Container Tools Tests --- 
+echo ""
+echo "--- Testing Docker Installation ---"
+if command -v docker &> /dev/null; then
+    echo "Docker found: $(command -v docker)"
+    docker --version || { echo "ERROR: docker --version failed"; errors=$((errors + 1)); }
+    # Check compose plugin
+    docker compose version || { echo "ERROR: docker compose version failed"; errors=$((errors + 1)); }
+    # Check buildx plugin
+    docker buildx version || { echo "ERROR: docker buildx version failed"; errors=$((errors + 1)); }
+else
+    echo "ERROR: docker command not found!"
+    errors=$((errors + 1))
+fi
+
+echo ""
+echo "--- Testing Podman Installation ---"
+if command -v podman &> /dev/null; then
+    echo "Podman found: $(command -v podman)"
+    podman --version || { echo "ERROR: podman --version failed"; errors=$((errors + 1)); }
+else
+    echo "ERROR: podman command not found!"
+    errors=$((errors + 1))
+fi
+
+echo ""
+echo "--- Testing Buildah Installation ---"
+if command -v buildah &> /dev/null; then
+    echo "Buildah found: $(command -v buildah)"
+    buildah --version || { echo "ERROR: buildah --version failed"; errors=$((errors + 1)); }
+else
+    echo "ERROR: buildah command not found!"
+    errors=$((errors + 1))
+fi
+
+echo ""
+echo "--- Testing Skopeo Installation ---"
+if command -v skopeo &> /dev/null; then
+    echo "Skopeo found: $(command -v skopeo)"
+    skopeo --version || { echo "ERROR: skopeo --version failed"; errors=$((errors + 1)); }
+else
+    echo "ERROR: skopeo command not found!"
+    errors=$((errors + 1))
+fi
+
 echo ""
 if [[ $errors -eq 0 ]]; then
     echo "All tests passed!"

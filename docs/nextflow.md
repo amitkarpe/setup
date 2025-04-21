@@ -20,6 +20,7 @@ This executes `install_deps.sh`, which ensures the following are installed on an
 - Apptainer dependencies (`squashfs-tools`, `fuse2fs`)
 - Java 21 (OpenJDK)
 - Python 3, pip3, and venv
+- Container tools (Docker CE, Docker Compose plugin, Docker Buildx plugin, Podman, Buildah, Skopeo)
 
 ## Installation
 
@@ -52,8 +53,6 @@ make test
 
 This executes `test.sh`, which checks:
 
-- If the `nextflow` command is available and runs `nextflow -v`.
-- If the `nf-core` command is available and runs `nf-core --version`.
-- If the `apptainer` command is available.
+- If the `nextflow`, `nf-core`, `apptainer`, `docker`, `docker compose`, `podman`, `buildah`, and `skopeo` commands are available.
 
 The script will report success or failure based on these checks. 
