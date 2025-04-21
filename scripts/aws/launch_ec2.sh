@@ -51,3 +51,8 @@ aws ec2 run-instances \
 
 echo ""
 echo "Instance launch command executed. Check the AWS console or use 'aws ec2 describe-instances' for status." 
+
+aws ec2 describe-instances \
+  --region ap-southeast-1 \
+  --query 'Reservations[].Instances[] | sort_by(@, &LaunchTime) | reverse(@)[0].{InstanceId: InstanceId, Name: Tags[?Key==`Name`].Value | [0], State: State.Name, LaunchTime: LaunchTime}' \
+  --output table
