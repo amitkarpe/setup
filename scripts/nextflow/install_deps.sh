@@ -44,3 +44,17 @@ sudo apt-get install -y --no-install-recommends \
     squashfs-tools \
     fuse2fs
     
+
+# Add user to docker group
+sudo usermod -aG docker $USER
+sudo systemctl status docker
+sudo docker run hello-world
+
+# Add user to podman group
+sudo usermod -aG podman $USER
+sudo systemctl status podman
+sudo podman run hello-world
+
+# Test AWS CLI
+aws --version
+aws s3 ls
