@@ -31,7 +31,8 @@ sudo apt-get install -y --no-install-recommends \
     openjdk-11-jdk \
     python3 \
     python3-pip \
-    python3-venv
+    python3-venv \
+    make
 
 echo ""
 echo "--- Verifying installations ---"

@@ -15,7 +15,7 @@ Dependencies can be installed using the dedicated script in this directory.
     ```
 
 This executes `install_deps.sh`, which ensures the following are installed on an Ubuntu system:
-- Basic tools (curl, git, wget, jq, etc.)
+- Basic tools (curl, git, wget, jq, make, etc.)
 - Java 11 (OpenJDK)
 - Python 3, pip3, and venv
 
