@@ -32,13 +32,15 @@ sudo apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     python3-venv \
-    make
-
-echo ""
-echo "--- Verifying installations ---"
-java -version
-python3 --version
-pip3 --version
-
-echo ""
-echo "Prerequisite installation script finished." 
+    make \
+    software-properties-common \
+    golang \
+    docker-ce \
+    podman \
+    buildah \
+    skopeo \
+    conda \
+    awscli \
+    squashfs-tools \
+    fuse2fs
+    

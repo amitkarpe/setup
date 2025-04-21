@@ -33,6 +33,17 @@ else
 fi
 
 echo ""
+echo "--- Testing Apptainer Installation ---"
+if command -v apptainer &> /dev/null; then
+    echo "Apptainer found: $(command -v apptainer)"
+    echo "Running apptainer --version:"
+    apptainer --version || { echo "ERROR: apptainer --version failed"; errors=$((errors + 1)); }
+else
+    echo "ERROR: apptainer command not found!"
+    errors=$((errors + 1))
+fi
+
+echo ""
 if [[ $errors -eq 0 ]]; then
     echo "All tests passed!"
     exit 0
