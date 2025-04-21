@@ -6,6 +6,7 @@ This document describes how to use the provided script to launch a pre-configure
 
 - AWS CLI installed and configured with appropriate credentials.
 - Permissions to perform `ec2:DescribeImages` and `ec2:RunInstances`.
+- The `make` command installed. If not present, run: `bash scripts/common/install_make.sh`
 - An existing VPC, Subnet, Security Groups, IAM Role, and Key Pair as defined within the script.
 
 ## Configuration

@@ -4,6 +4,7 @@ This document describes how to install Nextflow and the nf-core helper tools usi
 
 ## Prerequisites
 
+Using the Makefile targets requires the `make` command to be installed.
 Dependencies can be installed using the dedicated script in this directory.
 
 1.  Navigate to the `scripts/nextflow` directory.
