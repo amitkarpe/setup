@@ -30,8 +30,7 @@ if [[ ! -x "$(command -v nextflow)" ]]; then
     
     echo "Moving nextflow executable to $TARGET_BIN"
     chmod +x nextflow
-    # No sudo needed for $HOME/.local/bi
-    * Share same issue ID for next stepsn
+    # No sudo needed for $HOME/.local/bin
     mv nextflow "$TARGET_BIN/"
     echo "Nextflow installed successfully to $TARGET_BIN/nextflow"
 else

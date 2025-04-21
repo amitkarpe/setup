@@ -3,6 +3,7 @@
 set -euo pipefail
 
 errors=0
+export PATH="$HOME/.local/bin:$PATH"
 
 echo "--- Testing Nextflow Installation ---"
 if [[ -x "$(command -v nextflow)" ]]; then
