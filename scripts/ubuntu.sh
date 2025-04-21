@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+# Set non-interactive mode for apt commands
+export DEBIAN_FRONTEND=noninteractive
+
 set -e
 
 install_packages() {

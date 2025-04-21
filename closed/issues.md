@@ -1,33 +1,24 @@
-# Task Template: 
+# Task Template: Install nextflow + nfcore on Ubuntu Linux
 
-**create new ec2 (ubuntu) instance using latest AMI**
-
+**Install nextflow + nfcore on Ubuntu Linux*
 
 ## Task Details
 
 *   **Repository:** `amitkarpe/setup` ([https://github.com/amitkarpe/setup](https://github.com/amitkarpe/setup))
 *   **Local Workspace:** `/home/ec2-user/git/github/setup`
-*   **Task Title:**  create new ec2 (ubuntu) instance using latest AMI
-*   **Goal:** 
-create new ec2 (ubuntu) instance using latest AMI in singapore region 
-200 GB volume 
-Instance type t3.xlarge
-VPC ID: vpc-035eb12babd9ca798 (stata-vpc) 
-Subnet ID: subnet-0d13ba2dcbb0f6d46 (stata-subnet-public2-ap-southeast-1b) 
-IAM Role: TerraformProductionAccessRole 
-Security groups
-sg-0276a736dda5e4a3f (default)
-sg-01d367382d6cfe56c (dev-dev-demo4)
-sg-02828916c4212e616 (imagebuilder)
-Key pair assigned at launch: "amit"
-either use ami from command line or use latest by checking your self
+*   **Task Title:**  Install nextflow + nfcore on Ubuntu Linux
+*   **Goal:** install all basic tools and commands for system like  tree tmux nano unzip vim wget git net-tools zsh htop jq ca-certificates curl gnupg lsb-release
+and install all dependencies for following packages
+Add support to install Nextflow and nf-core tools via the main setup scripts.
 
 *   **References:**
     *   [Link/Path to relevant code to reference, e.g., https://github.com/amitkarpe/gitlab/tree/main/docs]
-    * Use code from https://github.com/amitkarpe/gitlab/blob/main/docs/run.sh and https://github.com/amitkarpe/gitlab/blob/main/docs/start.sh
+    *   [Link to official documentation, e.g., https://nf-co.re/usage/installation]
+    *   [Any other relevant files, issues, or URLs]
 *   **Preferences/Constraints:** 
-Add installation steps to (documents) in docs/ec2-launch.md
-Add installation scripts in scripts/aws folder (with Makefile)
+Add installation steps to (documents) in docs/nextflow.md
+Add installation scripts in scripts/nextflow folder (with Makefile)
+Check whether packages where installed in past
 Use a Makefile if appropriate for build/test steps, Follow existing script style.
 
 ---
@@ -42,12 +33,9 @@ Okay Cursor, let's tackle the task defined above. Please follow this workflow pr
     *   Read the "Task Details" section above carefully.
     *   State that you are starting the task: "[Task Title]".
     *   Briefly outline your plan, including the main files you expect to modify or create and the general sequence of steps (e.g., "1. Analyze reference scripts. 2. Add installation commands to `scripts/devops.sh`. 3. Create a test function/script. 4. Update README.").
-    * Create new github issue using issues.md specific part
-    * Share same issue ID for next steps
 
 2.  **Branch Creation:**
-    * Using this issue ID create  
-    *   Suggest a suitable branch name based on the task title (e.g., `feature/add-nextflow-support`) and using above issue ID.
+    *   Suggest a suitable branch name based on the task title (e.g., `feature/add-nextflow-support`).
     *   Ask me to create this branch locally using a `git checkout -b [suggested-branch-name]` command. Wait for confirmation or execution.
 
 3.  **Implementation:**

@@ -4,19 +4,32 @@ This document describes how to install Nextflow and the nf-core helper tools usi
 
 ## Prerequisites
 
-- Ubuntu Linux
-- Basic tools (curl, git, etc. - installed by `scripts/ubuntu.sh`)
-- Java 11+ (installed by `scripts/ubuntu.sh`)
-- Python 3 and pip3 (installed by `scripts/ubuntu.sh`)
+Using the Makefile targets requires the `make` command to be installed.
+Dependencies can be installed using the dedicated script in this directory.
+
+1.  Navigate to the `scripts/nextflow` directory.
+2.  Run the dependency installation target:
+
+    ```bash
+    cd scripts/nextflow
+    make install-deps
+    ```
+
+This executes `install_deps.sh`, which ensures the following are installed on an Ubuntu system:
+- Basic tools (curl, git, wget, jq, make, etc.)
+- Java 11 (OpenJDK)
+- Python 3, pip3, and venv
 
 ## Installation
 
-To install Nextflow and nf-core, navigate to the `scripts/nextflow` directory and use the Makefile:
+Once prerequisites are installed, you can install Nextflow and nf-core.
 
-```bash
-cd scripts/nextflow
-make install
-```
+1. Ensure you are in the `scripts/nextflow` directory.
+2. Run the installation target:
+
+    ```bash
+    make install
+    ```
 
 This will run the `install.sh` script, which performs the following actions:
 
