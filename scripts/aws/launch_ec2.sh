@@ -43,6 +43,17 @@ BLOCK_DEVICE_MAPPINGS='[{"DeviceName": "/dev/sda1", "Ebs": {"VolumeSize": '$VOLU
 # --- Prepare Tags Specification --- 
 TAG_SPECIFICATIONS='[{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"'$INSTANCE_NAME'"},{"Key":"CreatedBy","Value":"'$TAG_CREATED_BY'"}]},{"ResourceType":"volume","Tags":[{"Key":"Name","Value":"'$INSTANCE_NAME'-rootvol'"},{"Key":"CreatedBy","Value":"'$TAG_CREATED_BY'"}]}]'
 
+# --- Prepare Network Interface JSON --- 
+# Format security groups correctly into a JSON array of strings
+FORMATTED_SG_IDS=""
+for sg in $SECURITY_GROUP_IDS; do
+  FORMATTED_SG_IDS+="\"$sg\","
+done
+# Remove trailing comma
+FORMATTED_SG_IDS=${FORMATTED_SG_IDS%,}
+
+NETWORK_INTERFACES='[{"DeviceIndex": 0, "SubnetId": "'$SUBNET_ID'", "Groups": ['$FORMATTED_SG_IDS'], "AssociatePublicIpAddress": true}]'
+
 # --- Construct and Run EC2 Instance --- 
 echo "Launching EC2 instance..."
 
@@ -52,7 +63,7 @@ aws ec2 run-instances \
   --instance-type "$INSTANCE_TYPE" \
   --key-name "$KEY_NAME" \
   --iam-instance-profile Name="$IAM_ROLE_NAME" \
-  --network-interfaces '[{"DeviceIndex": 0, "SubnetId": "'$SUBNET_ID'", "Groups": ['$SECURITY_GROUP_IDS'], "AssociatePublicIpAddress": true}]' \
+  --network-interfaces "$NETWORK_INTERFACES" \
   --block-device-mappings "$BLOCK_DEVICE_MAPPINGS" \
   --tag-specifications "$TAG_SPECIFICATIONS" \
   --count 1
