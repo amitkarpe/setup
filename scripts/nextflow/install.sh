@@ -47,7 +47,7 @@ if [[ ! -x "$(command -v nf-core)" ]]; then
     pip3 install --upgrade --user nf-core # Use --user to ensure install to user location
     echo "nf-core tools installed successfully."
     # Verify after install
-    if ! command -v nf-core &> /dev/null; then
+    if [[ ! -x "$(command -v nf-core)" ]]; then
        echo "WARNING: nf-core installed but still not found in PATH immediately. You may need to restart your shell or source your profile."
     fi
 else
@@ -59,7 +59,7 @@ echo ""
 echo "--- Installing Apptainer (Singularity) ---"
 
 # Check if Apptainer is installed
-if ! command -v apptainer &> /dev/null; then
+if [[ ! -x "$(command -v apptainer)" ]]; then
     echo "Apptainer not found. Installing..."
     APPTAINER_DEB_URL="https://github.com/apptainer/apptainer/releases/download/v1.4.0/apptainer_1.4.0_amd64.deb"
     APPTAINER_DEB_TMP="/tmp/apptainer_1.4.0_amd64.deb"

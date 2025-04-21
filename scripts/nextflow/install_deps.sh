@@ -9,7 +9,7 @@ echo "--- Updating package lists ---"
 sudo apt-get update -y
 
 # --- Install Docker using Convenience Script ---
-if ! command -v docker &> /dev/null; then
+if [[ ! -x "$(command -v docker)" ]]; then
     echo "Installing Docker using get.docker.com script..."
     curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
     sudo sh /tmp/get-docker.sh
@@ -83,7 +83,7 @@ aws --version
 # --- Final User Management --- 
 
 # Add user to podman group if podman is installed
-if command -v podman &> /dev/null; then
+if [[ -x "$(command -v podman)" ]]; then
     echo "Adding current user ($USER) to podman group..."
     sudo usermod -aG podman $USER # Often 'podman' group doesn't exist by default, might need setup
 fi

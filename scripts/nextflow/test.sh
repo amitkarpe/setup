@@ -5,7 +5,7 @@ set -euo pipefail
 errors=0
 
 echo "--- Testing Nextflow Installation ---"
-if command -v nextflow &> /dev/null; then
+if [[ -x "$(command -v nextflow)" ]]; then
     echo "Nextflow found: $(command -v nextflow)"
     echo "Running nextflow -v:"
     nextflow -v || { echo "ERROR: nextflow -v failed"; errors=$((errors + 1)); }
@@ -16,7 +16,7 @@ fi
 
 echo ""
 echo "--- Testing nf-core Installation ---"
-if command -v nf-core &> /dev/null; then
+if [[ -x "$(command -v nf-core)" ]]; then
     echo "nf-core found: $(command -v nf-core)"
     echo "Running nf-core --version:"
     # nf-core --version exits with 1, so we check output presence
@@ -34,7 +34,7 @@ fi
 
 echo ""
 echo "--- Testing Apptainer Installation ---"
-if command -v apptainer &> /dev/null; then
+if [[ -x "$(command -v apptainer)" ]]; then
     echo "Apptainer found: $(command -v apptainer)"
     echo "Running apptainer --version:"
     apptainer --version || { echo "ERROR: apptainer --version failed"; errors=$((errors + 1)); }
@@ -46,7 +46,7 @@ fi
 # --- Container Tools Tests --- 
 echo ""
 echo "--- Testing Docker Installation ---"
-if command -v docker &> /dev/null; then
+if [[ -x "$(command -v docker)" ]]; then
     echo "Docker found: $(command -v docker)"
     docker --version || { echo "ERROR: docker --version failed"; errors=$((errors + 1)); }
     # Check compose plugin
@@ -60,7 +60,7 @@ fi
 
 echo ""
 echo "--- Testing Podman Installation ---"
-if command -v podman &> /dev/null; then
+if [[ -x "$(command -v podman)" ]]; then
     echo "Podman found: $(command -v podman)"
     podman --version || { echo "ERROR: podman --version failed"; errors=$((errors + 1)); }
 else
@@ -70,7 +70,7 @@ fi
 
 echo ""
 echo "--- Testing Buildah Installation ---"
-if command -v buildah &> /dev/null; then
+if [[ -x "$(command -v buildah)" ]]; then
     echo "Buildah found: $(command -v buildah)"
     buildah --version || { echo "ERROR: buildah --version failed"; errors=$((errors + 1)); }
 else
@@ -80,7 +80,7 @@ fi
 
 echo ""
 echo "--- Testing Skopeo Installation ---"
-if command -v skopeo &> /dev/null; then
+if [[ -x "$(command -v skopeo)" ]]; then
     echo "Skopeo found: $(command -v skopeo)"
     skopeo --version || { echo "ERROR: skopeo --version failed"; errors=$((errors + 1)); }
 else
