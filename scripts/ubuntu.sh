@@ -49,6 +49,29 @@ then
   source ~/.bashrc
 fi
 go version
+
+# Add Java (required for Nextflow)
+if [[ ! -f $(which java) ]] || ! java -version 2>&1 | grep -q 'openjdk version "11' ;
+then
+  echo "Installing OpenJDK 11..."
+  sudo apt-get update -y
+  sudo apt-get install -y openjdk-11-jdk
+else
+ echo "Java 11 already installed."
+fi
+java -version
+
+# Add Python3 and pip (required for nf-core)
+if [[ ! -f $(which python3) ]] || [[ ! -f $(which pip3) ]] ;
+then
+  echo "Installing Python3 and pip3..."
+  sudo apt-get update -y
+  sudo apt-get install -y python3 python3-pip python3-venv
+else
+ echo "Python3 and pip3 already installed."
+fi
+python3 --version
+pip3 --version
 }
 
 install_docker() {
