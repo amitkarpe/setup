@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+set -x
+
 
 # Ensure $HOME/.local/bin exists and is in the PATH for this script
 if [[ ! -d "$HOME/.local/bin" ]]; then
@@ -48,6 +50,7 @@ if ! command -v nf-core &> /dev/null; then
        echo "WARNING: nf-core installed but still not found in PATH immediately. You may need to restart your shell or source your profile."
     fi
 else
+    export PATH="$HOME/.local/bin:$PATH"
     echo "nf-core tools already installed: $(nf-core --version)"
 fi
 
