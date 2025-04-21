@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 .PHONY: all install install-deps test clean help
 
-all: install test
+all: install-deps install test
 
 install:
 	@echo "Running Nextflow/nf-core installation script..."

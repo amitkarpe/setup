@@ -28,7 +28,7 @@ sudo apt-get install -y --no-install-recommends \
     curl \
     gnupg \
     lsb-release \
-    openjdk-11-jdk \
+    openjdk-21-jdk \
     python3 \
     python3-pip \
     python3-venv \

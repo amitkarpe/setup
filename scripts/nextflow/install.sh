@@ -11,6 +11,7 @@ if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     echo "Adding $HOME/.local/bin to PATH for this session."
     export PATH="$HOME/.local/bin:$PATH"
     # Note: For permanent addition, user should add to ~/.bashrc or ~/.profile
+    echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> ~/.bashrc
 fi
 
 echo "--- Installing Nextflow ---"
