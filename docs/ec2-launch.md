@@ -41,4 +41,24 @@ This will execute the `launch_ec2.sh` script, which performs the following:
 2.  **Constructs Command:** Builds the `aws ec2 run-instances` command using the configuration variables and the found AMI ID.
 3.  **Launches Instance:** Executes the command to request the instance launch.
 
-The script outputs the found AMI ID and confirms the launch command execution. Check the AWS console for the instance status and details (like Public IP). 
+The script outputs the found AMI ID and confirms the launch command execution. Check the AWS console for the instance status and details (like Public IP).
+
+## Deleting Instances
+
+A script is provided to terminate instances launched by this process (or any instance).
+
+1.  You need the **Instance ID** of the EC2 instance you want to terminate.
+2.  Navigate to the `scripts/aws` directory.
+3.  Run the `delete` target using the Makefile, providing the Instance ID:
+
+    ```bash
+    cd scripts/aws
+    make delete INSTANCE_ID=i-xxxxxxxxxxxxxxxxx 
+    ```
+    (Replace `i-xxxxxxxxxxxxxxxxx` with the actual Instance ID)
+
+This will execute `delete_ec2.sh`:
+- It will ask for confirmation before proceeding.
+- It executes the `aws ec2 terminate-instances` command for the specified ID.
+
+**Warning:** Termination is permanent and cannot be undone. 
