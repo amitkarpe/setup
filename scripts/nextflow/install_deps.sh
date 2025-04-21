@@ -14,7 +14,7 @@ if [[ ! -x "$(command -v docker)" ]]; then
     curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
     sudo sh /tmp/get-docker.sh
     rm /tmp/get-docker.sh
-    echo "Adding current user ($USER) to docker group..."
+    echo "Adding current user $USER to docker group..."
     sudo usermod -aG docker $USER
     echo "Docker installed. You may need to start a new shell for group changes to take effect."
 else
@@ -48,14 +48,9 @@ sudo apt-get install -y --no-install-recommends \
     make \
     software-properties-common \
     golang \
-    # Install Docker plugins via apt
-    docker-buildx-plugin \
-    docker-compose-plugin \
-    # Podman ecosystem & others
     podman \
     buildah \
     skopeo \
-    conda \
     awscli \
     squashfs-tools \
     fuse2fs \
@@ -82,10 +77,16 @@ aws --version
 
 # --- Final User Management --- 
 
-# Add user to podman group if podman is installed
+# Add user to podman group if podman command exists AND the group exists
 if [[ -x "$(command -v podman)" ]]; then
-    echo "Adding current user ($USER) to podman group..."
-    sudo usermod -aG podman $USER # Often 'podman' group doesn't exist by default, might need setup
+    if getent group podman &> /dev/null; then
+        echo "Adding current user $USER to podman group..."
+        sudo usermod -aG podman $USER
+    else
+        echo "Note: 'podman' group does not exist. Skipping user addition to group."
+        # If you need rootless podman to work with specific group permissions,
+        # the 'podman' group might need to be created manually by an administrator.
+    fi
 fi
 
 echo ""
