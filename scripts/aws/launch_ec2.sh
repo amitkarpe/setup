@@ -1,80 +1,60 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-# set -x # Keep commented out unless debugging
 
-# --- Check for Environment File Argument --- 
-if [[ -z "$1" ]]; then
-    echo "Usage: $0 <environment_file>" >&2
-    echo "Error: No environment file provided." >&2
-    exit 1
+# --- Configuration --- 
+# Retrieved from issues.md
+REGION="ap-southeast-1"
+INSTANCE_TYPE="t3.xlarge"
+VPC_ID="vpc-035eb12babd9ca798"
+SUBNET_ID="subnet-0d13ba2dcbb0f6d46"
+IAM_ROLE_NAME="TerraformProductionAccessRole"
+SECURITY_GROUP_IDS="sg-0276a736dda5e4a3f sg-01d367382d6cfe56c sg-02828916c4212e616"
+KEY_NAME="amit"
+VOLUME_SIZE_GB=200
+INSTANCE_NAME="ubuntu-$(date +%Y%m%d-%H%M)" # Example naming convention
+TAG_CREATED_BY="scripted-launch"
+
+# --- Find Latest Ubuntu 22.04 LTS AMI --- 
+echo "Finding latest Ubuntu 22.04 LTS AMI in $REGION..."
+
+# Using AWS CLI to get the latest Ubuntu 22.04 LTS (Jammy) AMI ID for amd64
+# Owner alias 'amazon' can sometimes be used, but canonical is safer (099720109477)
+LATEST_AMI_ID=$(aws ec2 describe-images --region "$REGION" \
+  --owners 099720109477 \
+  --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" "Name=state,Values=available" \
+  --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
+  --output text)
+
+if [[ -z "$LATEST_AMI_ID" ]]; then
+  echo "Error: Could not find the latest Ubuntu 22.04 LTS AMI ID." >&2
+  exit 1
 fi
 
-ENV_FILE="$1"
+echo "Found AMI ID: $LATEST_AMI_ID"
 
-if [[ ! -f "$ENV_FILE" ]]; then
-    echo "Error: Environment file not found: $ENV_FILE" >&2
-    exit 1
-fi
+# --- Prepare Block Device Mapping JSON --- 
+# Note: For GP3, you might specify IOPS/Throughput. For GP2, just size.
+# Ensure the device name (/dev/sda1 or /dev/xvda) matches the AMI's root device name.
+# You might need to check the AMI details manually or with describe-images if unsure.
+# Assuming /dev/sda1 for standard Ubuntu AMIs from Canonical.
+BLOCK_DEVICE_MAPPINGS='[{"DeviceName": "/dev/sda1", "Ebs": {"VolumeSize": '$VOLUME_SIZE_GB', "VolumeType": "gp3", "DeleteOnTermination": true}}]'
 
-# --- Source Configuration from File --- 
-echo "Sourcing configuration from $ENV_FILE..."
-source "$ENV_FILE"
+# --- Prepare Tags Specification --- 
+TAG_SPECIFICATIONS='[{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"'$INSTANCE_NAME'"},{"Key":"CreatedBy","Value":"'$TAG_CREATED_BY'"}]},{"ResourceType":"volume","Tags":[{"Key":"Name","Value":"'$INSTANCE_NAME'-rootvol'"},{"Key":"CreatedBy","Value":"'$TAG_CREATED_BY'"}]}]'
 
-# --- Validate Required Variables (Add more as needed) --- 
-required_vars=("REGION" "INSTANCE_TYPE" "VPC_ID" "SUBNET_ID" "IAM_ROLE_NAME" "SECURITY_GROUP_IDS" "KEY_NAME" "VOLUME_SIZE_GB")
-missing_vars=0
-for var in "${required_vars[@]}"; do
-    if [[ -z "${!var:-}" ]]; then
-        echo "Error: Required variable '$var' not set in $ENV_FILE." >&2
-        missing_vars=1
-    fi
+# --- Prepare Network Interface JSON --- 
+# Format security groups correctly into a JSON array of strings
+FORMATTED_SG_IDS=""
+for sg in $SECURITY_GROUP_IDS; do
+  FORMATTED_SG_IDS+="\"$sg\","
 done
-if [[ $missing_vars -eq 1 ]]; then
-    exit 1
-fi
+# Remove trailing comma
+FORMATTED_SG_IDS=${FORMATTED_SG_IDS%,}
 
-# --- Set Defaults if Not Provided --- 
-# Define defaults directly here or source a default.env first
-INSTANCE_NAME=${INSTANCE_NAME:-"ubuntu-$(date +%Y%m%d-%H%M)"} # Default if INSTANCE_NAME is empty or unset
-TAG_CREATED_BY=${TAG_CREATED_BY:-"scripted-launch"}         # Default if TAG_CREATED_BY is empty or unset
+NETWORK_INTERFACES='[{"DeviceIndex": 0, "SubnetId": "'$SUBNET_ID'", "Groups": ['$FORMATTED_SG_IDS'], "AssociatePublicIpAddress": true}]'
 
-# --- REMOVED Hardcoded Configuration Variables --- 
-
-# --- Find Latest Ubuntu 22.04 LTS AMI (if not provided) --- 
-if [[ -z "${LATEST_AMI_ID:-}" ]]; then
-    echo "LATEST_AMI_ID not set in $ENV_FILE. Finding latest Ubuntu 22.04 LTS AMI in $REGION..."
-    # Using AWS CLI to get the latest Ubuntu 22.04 LTS (Jammy) AMI ID for amd64
-    # Owner alias 'amazon' can sometimes be used, but canonical is safer (099720109477)
-    LATEST_AMI_ID_FOUND=$(aws ec2 describe-images --region "$REGION" \
-      --owners 099720109477 \
-      --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" "Name=state,Values=available" \
-      --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
-      --output text)
-
-    if [[ -z "$LATEST_AMI_ID_FOUND" ]]; then
-      echo "Error: Could not find the latest Ubuntu 22.04 LTS AMI ID." >&2
-      exit 1
-    fi
-    # Assign the found ID back to the variable used later
-    LATEST_AMI_ID="$LATEST_AMI_ID_FOUND"
-    echo "Found AMI ID: $LATEST_AMI_ID"
-elif [[ "$LATEST_AMI_ID" == "FIND_LATEST" ]]; then # Optional: Allow explicitly requesting lookup
-    echo "FIND_LATEST specified for LATEST_AMI_ID. Finding latest Ubuntu 22.04 LTS AMI in $REGION..."
-    # ... (duplicate the lookup logic above or refactor into a function)
-    LATEST_AMI_ID_FOUND=$(aws ec2 describe-images --region "$REGION" \
-      --owners 099720109477 \
-      --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" "Name=state,Values=available" \
-      --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
-      --output text)
-    # ... (error check)
-    LATEST_AMI_ID="$LATEST_AMI_ID_FOUND"
-    echo "Found AMI ID: $LATEST_AMI_ID"
-else
-    echo "Using AMI ID from $ENV_FILE: $LATEST_AMI_ID"
-fi
-
-# --- Construct and Run EC2 Instance using simpler CLI args --- 
+# --- Construct and Run EC2 Instance --- 
 echo "Launching EC2 instance..."
 
 aws ec2 run-instances \
@@ -83,17 +63,10 @@ aws ec2 run-instances \
   --instance-type "$INSTANCE_TYPE" \
   --key-name "$KEY_NAME" \
   --iam-instance-profile Name="$IAM_ROLE_NAME" \
-  --subnet-id "$SUBNET_ID" \
-  --security-group-ids $SECURITY_GROUP_IDS \
-  --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE_GB,VolumeType=gp3,DeleteOnTermination=true}" \
-  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$INSTANCE_NAME},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" "ResourceType=volume,Tags=[{Key=Name,Value=${INSTANCE_NAME}-rootvol},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" \
-  --user-data file://scripts/aws/user_data_nextflow_setup.sh \
+  --network-interfaces "$NETWORK_INTERFACES" \
+  --block-device-mappings "$BLOCK_DEVICE_MAPPINGS" \
+  --tag-specifications "$TAG_SPECIFICATIONS" \
   --count 1
 
 echo ""
 echo "Instance launch command executed. Check the AWS console or use 'aws ec2 describe-instances' for status." 
-
-aws ec2 describe-instances \
-  --region ap-southeast-1 \
-  --query 'Reservations[].Instances[] | sort_by(@, &LaunchTime) | reverse(@)[0].{InstanceId: InstanceId, Name: Tags[?Key==`Name`].Value | [0], State: State.Name, LaunchTime: LaunchTime}' \
-  --output table
