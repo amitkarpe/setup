@@ -68,5 +68,28 @@ aws ec2 run-instances \
   --tag-specifications "$TAG_SPECIFICATIONS" \
   --count 1
 
+
+INSTANCE_INFO=$(aws ec2 describe-instances \
+  --region $REGION \
+  --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=pending,running" \
+  --query 'Reservations[].Instances[].[InstanceId,State.Name,LaunchTime]' \
+  --output text)
+
 echo ""
-echo "Instance launch command executed. Check the AWS console or use 'aws ec2 describe-instances' for status." 
+echo "Instance launch requested. Details:"
+echo "$INSTANCE_INFO"
+echo "Check the AWS console or use 'aws ec2 describe-instances' for full status."
+
+# Export the ID of the latest instance launched (based on Name tag filter)
+echo "Exporting LAST_INSTANCE_ID..."
+export LAST_INSTANCE_ID=$(aws ec2 describe-instances \
+  --region $REGION \
+  --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=pending,running" \
+  --query 'Reservations[].Instances[0].InstanceId' \
+  --output text)
+
+if [[ -n "$LAST_INSTANCE_ID" ]]; then
+  echo "LAST_INSTANCE_ID=$LAST_INSTANCE_ID"
+else
+  echo "Warning: Could not determine LAST_INSTANCE_ID from describe-instances output."
+fi

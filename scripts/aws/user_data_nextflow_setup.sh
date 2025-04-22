@@ -64,6 +64,27 @@ fi
 # Install Docker plugins
 apt-get install -y --no-install-recommends docker-buildx-plugin docker-compose-plugin
 
+# --- Add Users to Docker Group and Test --- 
+echo "Adding current user - ssm-user and ubuntu to docker group..."
+if id ubuntu &> /dev/null; then
+    usermod -aG docker ubuntu
+    echo "Added 'ubuntu' to docker group."
+else
+    echo "User 'ubuntu' not found."
+fi
+if id ssm-user &> /dev/null; then
+    usermod -aG docker ssm-user
+    echo "Added 'ssm-user' to docker group."
+else
+    echo "User 'ssm-user' not found."
+fi
+
+echo "Setting permissions on Docker socket..."
+sudo chmod 666 /var/run/docker.sock # Warning: Broad permissions
+
+echo "Running docker hello-world test..."
+docker run hello-world || echo "Docker hello-world test failed."
+
 # --- Install Podman Ecosystem --- 
 echo "Installing Podman, Buildah, Skopeo..."
 apt-get install -y --no-install-recommends podman buildah skopeo

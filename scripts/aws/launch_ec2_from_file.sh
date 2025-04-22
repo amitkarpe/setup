@@ -101,6 +101,21 @@ echo "Instance launch requested. Details:"
 echo "$INSTANCE_INFO"
 echo "Check the AWS console or use 'aws ec2 describe-instances' for full status."
 
-# Optional: Add a call to the status script here if desired
-# echo "Fetching status of latest instance..."
-# bash scripts/aws/status_latest_ec2.sh # Assuming status script exists
+# Export the ID of the instance just launched (based on Name tag filter)
+echo "Exporting LAST_INSTANCE_ID..."
+export LAST_INSTANCE_ID=$(aws ec2 describe-instances \
+  --region $REGION \
+  --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=pending,running" \
+  --query 'Reservations[].Instances[0].InstanceId' \
+  --output text)
+
+if [[ -n "$LAST_INSTANCE_ID" ]]; then
+  echo "LAST_INSTANCE_ID=$LAST_INSTANCE_ID"
+else
+  echo "Warning: Could not determine LAST_INSTANCE_ID from describe-instances output."
+fi
+
+aws ec2 describe-instances \
+  --region ap-southeast-1 \
+  --query 'Reservations[].Instances[] | sort_by(@, &LaunchTime) | reverse(@)[0].{InstanceId: InstanceId, Name: Tags[?Key==`Name`].Value | [0], State: State.Name, LaunchTime: LaunchTime}' \
+  --output table
