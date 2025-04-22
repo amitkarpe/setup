@@ -90,6 +90,7 @@ if ! command -v nextflow &> /dev/null; then
     curl -s https://get.nextflow.io | bash
     echo "Moving nextflow executable to /usr/local/bin"
     chmod +x nextflow
+    chmod +r nextflow
     mv nextflow /usr/local/bin/
 else
     echo "Nextflow already found."
@@ -104,6 +105,13 @@ if ! command -v nf-core &> /dev/null; then
 else
     echo "nf-core tools already found."
 fi
+
+echo "Adding current user $USER to docker group..."
+docker pull alpine:3.18.11
+sudo usermod -aG docker $USER
+sudo usermod -aG docker ubuntu ssm-user
+#    echo "Adding current user $USER to podman group..."
+#    sudo usermod -aG podman $USER
 
 # --- Final Verification Output --- 
 echo "--- Verification --- "
