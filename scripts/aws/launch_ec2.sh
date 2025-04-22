@@ -47,6 +47,7 @@ aws ec2 run-instances \
   --security-group-ids $SECURITY_GROUP_IDS \
   --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE_GB,VolumeType=gp3,DeleteOnTermination=true}" \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$INSTANCE_NAME},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" "ResourceType=volume,Tags=[{Key=Name,Value=${INSTANCE_NAME}-rootvol},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" \
+  --user-data file://scripts/aws/user_data_nextflow_setup.sh \
   --count 1
 
 echo ""

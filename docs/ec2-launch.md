@@ -38,11 +38,11 @@ Modify these variables directly in the script if needed for different launches.
 
 This will execute the `launch_ec2.sh` script, which performs the following:
 
-1.  **Finds Latest AMI:** Automatically queries AWS for the latest Ubuntu 22.04 LTS (Jammy) server AMI ID for the specified region.
-2.  **Constructs Command:** Builds the `aws ec2 run-instances` command using the configuration variables and the found AMI ID.
-3.  **Launches Instance:** Executes the command to request the instance launch.
+1.  Finds Latest AMI.
+2.  Constructs Command.
+3.  Launches Instance, passing a User Data script (`scripts/aws/user_data_nextflow_setup.sh`) to automatically install Nextflow, nf-core, Apptainer, Docker, Podman, and other prerequisites on boot.
 
-The script outputs the found AMI ID and confirms the launch command execution. Check the AWS console for the instance status and details (like Public IP).
+The script outputs the found AMI ID and confirms the launch command execution. Instance setup happens automatically in the background. You can monitor the setup progress by checking the User Data log file (`/var/log/user-data.log`) on the instance once it boots.
 
 ## Deleting Instances
 
