@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-set -x
 
+set -x
 # --- Configuration --- 
 # Retrieved from issues.md
 REGION="ap-southeast-1"
@@ -34,9 +34,12 @@ fi
 
 echo "Found AMI ID: $LATEST_AMI_ID"
 
+# --- REMOVE JSON String Preparations --- 
+
 # --- Construct and Run EC2 Instance using simpler CLI args --- 
 echo "Launching EC2 instance..."
 
+# Ensure ALL necessary parameters are included
 aws ec2 run-instances \
   --region "$REGION" \
   --image-id "$LATEST_AMI_ID" \
@@ -47,12 +50,31 @@ aws ec2 run-instances \
   --security-group-ids $SECURITY_GROUP_IDS \
   --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE_GB,VolumeType=gp3,DeleteOnTermination=true}" \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$INSTANCE_NAME},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" "ResourceType=volume,Tags=[{Key=Name,Value=${INSTANCE_NAME}-rootvol},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" \
+  --user-data file://scripts/aws/user_data_nextflow_setup.sh \
   --count 1
 
-echo ""
-echo "Instance launch command executed. Check the AWS console or use 'aws ec2 describe-instances' for status." 
+# --- Status Check & Export --- 
+INSTANCE_INFO=$(aws ec2 describe-instances \
+  --region $REGION \
+  --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=pending,running" \
+  --query 'Reservations[].Instances[].[InstanceId,State.Name,LaunchTime]' \
+  --output text)
 
-aws ec2 describe-instances \
-  --region ap-southeast-1 \
-  --query 'Reservations[].Instances[] | sort_by(@, &LaunchTime) | reverse(@)[0].{InstanceId: InstanceId, Name: Tags[?Key==`Name`].Value | [0], State: State.Name, LaunchTime: LaunchTime}' \
-  --output table
+echo ""
+echo "Instance launch requested. Details:"
+echo "$INSTANCE_INFO"
+echo "Check the AWS console or use 'aws ec2 describe-instances' for full status."
+
+# Export the ID of the latest instance launched (based on Name tag filter)
+echo "Exporting LAST_INSTANCE_ID..."
+export LAST_INSTANCE_ID=$(aws ec2 describe-instances \
+  --region $REGION \
+  --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=pending,running" \
+  --query 'Reservations[].Instances[0].InstanceId' \
+  --output text)
+
+if [[ -n "$LAST_INSTANCE_ID" ]]; then
+  echo "LAST_INSTANCE_ID=$LAST_INSTANCE_ID"
+else
+  echo "Warning: Could not determine LAST_INSTANCE_ID from describe-instances output."
+fi

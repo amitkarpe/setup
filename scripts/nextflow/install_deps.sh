@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Installs all prerequisites for Nextflow and nf-core on a fresh Ubuntu system.
+# Installs all prerequisites for Nextflow, nf-core, Apptainer, and Container Tools
 
 set -euo pipefail
 export DEBIAN_FRONTEND=noninteractive
@@ -8,10 +8,23 @@ export DEBIAN_FRONTEND=noninteractive
 echo "--- Updating package lists ---"
 sudo apt-get update -y
 
-echo ""
-echo "--- Installing Prerequisites (Basic Tools, Java 11, Python3/Pip) ---"
+# --- Install Docker using Convenience Script ---
+if [[ ! -x "$(command -v docker)" ]]; then
+    echo "Installing Docker using get.docker.com script..."
+    curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+    sudo sh /tmp/get-docker.sh
+    rm /tmp/get-docker.sh
+    echo "Adding current user $USER to docker group..."
+    sudo usermod -aG docker $USER
+    echo "Docker installed. You may need to start a new shell for group changes to take effect."
+else
+    echo "Docker command found, skipping installation via script."
+fi
 
-# Combine all package installations into one command
+echo ""
+echo "--- Installing Other Prerequisites ---"
+
+# Combine all remaining package installations into one command
 sudo apt-get install -y --no-install-recommends \
     tree \
     tmux \
@@ -32,13 +45,68 @@ sudo apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     python3-venv \
-    make
+    make \
+    software-properties-common \
+    golang \
+    podman \
+    buildah \
+    skopeo \
+    awscli \
+    squashfs-tools \
+    fuse2fs \
+    s3fs
+
+# --- Verifying installations --- #
+# (Keep verifications as they are useful)
 
 echo ""
-echo "--- Verifying installations ---"
+echo "--- Verifying container tool installations ---"
+docker --version || echo "Docker verification failed"
+docker compose version || echo "Docker Compose verification failed"
+docker buildx version || echo "Docker Buildx verification failed"
+podman --version || echo "Podman verification failed"
+buildah --version || echo "Buildah verification failed"
+skopeo --version || echo "Skopeo verification failed"
+
+# ... (other verification commands like java, python, aws) ...
 java -version
 python3 --version
 pip3 --version
+aws --version
+# aws s3 ls # Removed potentially interactive/error-prone check
+
+# --- Install AWS CLI v2 --- 
+echo ""
+echo "--- Installing/Updating AWS CLI v2 ---"
+if command -v aws &> /dev/null && aws --version | grep -q 'aws-cli/2'; then
+    echo "AWS CLI v2 already installed: $(aws --version)"
+else
+    echo "Installing AWS CLI v2..."
+    # Ensure unzip is installed (should be from base prerequisites)
+    if ! command -v unzip &> /dev/null; then sudo apt-get install -y unzip; fi
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+    unzip -q /tmp/awscliv2.zip -d /tmp
+    sudo /tmp/aws/install --update
+    rm -f /tmp/awscliv2.zip
+    rm -rf /tmp/aws
+    echo "AWS CLI v2 installation complete."
+fi
+aws --version
+
+# --- Final User Management --- 
+
+# Add user to podman group if podman command exists AND the group exists
+if [[ -x "$(command -v podman)" ]]; then
+    if getent group podman &> /dev/null; then
+        echo "Adding current user $USER to podman group..."
+        sudo usermod -aG podman $USER
+    else
+        echo "Note: 'podman' group does not exist. Skipping user addition to group."
+        # If you need rootless podman to work with specific group permissions,
+        # the 'podman' group might need to be created manually by an administrator.
+    fi
+fi
 
 echo ""
-echo "Prerequisite installation script finished." 
+echo "Prerequisite installation script finished."
+# Note: User might need to start a new shell or log out/in for group memberships (docker, podman) to apply.

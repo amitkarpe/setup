@@ -17,8 +17,11 @@ Dependencies can be installed using the dedicated script in this directory.
 
 This executes `install_deps.sh`, which ensures the following are installed on an Ubuntu system:
 - Basic tools (curl, git, wget, jq, make, etc.)
-- Java 11 (OpenJDK)
+- Apptainer dependencies (`squashfs-tools`, `fuse2fs`)
+- Java 21 (OpenJDK)
 - Python 3, pip3, and venv
+- Container tools (Docker CE, Docker Compose plugin, Docker Buildx plugin, Podman, Buildah, Skopeo)
+- AWS CLI v2
 
 ## Installation
 
@@ -36,6 +39,7 @@ This will run the `install.sh` script, which performs the following actions:
 1.  Downloads and installs the latest stable version of Nextflow using the official `get.nextflow.io` script.
 2.  Moves the `nextflow` executable to `/usr/local/bin` (or `~/.local/bin` if the former is not writable).
 3.  Installs the latest version of `nf-core` using `pip3`.
+4.  Installs Apptainer (Singularity).
 
 Both installations are idempotent, meaning they will check if the tools already exist before attempting installation.
 
@@ -50,7 +54,6 @@ make test
 
 This executes `test.sh`, which checks:
 
-- If the `nextflow` command is available and runs `nextflow -v`.
-- If the `nf-core` command is available and runs `nf-core --version`.
+- If the `nextflow`, `nf-core`, `apptainer`, `docker`, `docker compose`, `podman`, `buildah`, `skopeo`, and `aws` (v2) commands are available.
 
 The script will report success or failure based on these checks. 
