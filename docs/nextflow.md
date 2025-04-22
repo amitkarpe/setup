@@ -21,6 +21,8 @@ This executes `install_deps.sh`, which ensures the following are installed on an
 - Java 21 (OpenJDK)
 - Python 3, pip3, and venv
 - Container tools (Docker CE, Docker Compose plugin, Docker Buildx plugin, Podman, Buildah, Skopeo)
+- AWS CLI v2
+- AWS SSM Agent
 
 ## Installation
 
@@ -53,6 +55,7 @@ make test
 
 This executes `test.sh`, which checks:
 
-- If the `nextflow`, `nf-core`, `apptainer`, `docker`, `docker compose`, `podman`, `buildah`, and `skopeo` commands are available.
+- If the `nextflow`, `nf-core`, `apptainer`, `docker`, `docker compose`, `podman`, `buildah`, `skopeo`, and `aws` (v2) commands are available.
+- If the AWS SSM Agent service is active.
 
 The script will report success or failure based on these checks. 

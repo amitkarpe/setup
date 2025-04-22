@@ -163,6 +163,36 @@ else
     print_status failure "skopeo command not found!"
 fi
 
+printf "\n--- Testing AWS CLI v2 Installation ---"
+if [[ -x "$(command -v aws)" ]]; then
+    print_status success "AWS CLI found: $(command -v aws)"
+    printf "  Running aws --version:\n"
+    aws_version_output=$(aws --version 2>&1)
+    echo "$aws_version_output" | sed 's/^/    /'
+    if echo "$aws_version_output" | grep -q 'aws-cli/2'; then
+        print_status success "AWS CLI is version 2."
+    else
+        print_status failure "AWS CLI is NOT version 2."
+    fi
+else
+    print_status failure "AWS CLI command not found!"
+fi
+
+printf "\n--- Testing SSM Agent Status ---"
+# Check both snap and deb service names, prioritize active
+if sudo systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service; then
+    print_status success "SSM Agent (Snap) is active."
+    sudo systemctl status snap.amazon-ssm-agent.amazon-ssm-agent.service --no-pager | sed 's/^/    /'
+elif sudo systemctl is-active --quiet amazon-ssm-agent; then
+    print_status success "SSM Agent (.deb) is active."
+    sudo systemctl status amazon-ssm-agent --no-pager | sed 's/^/    /'
+elif command -v snap &> /dev/null && snap list amazon-ssm-agent &> /dev/null; then
+    print_status failure "SSM Agent (Snap) is installed but NOT active."
+elif systemctl list-units --all | grep -q amazon-ssm-agent.service; then 
+    print_status failure "SSM Agent (.deb) is installed but NOT active."
+else
+    print_status failure "SSM Agent does not appear to be installed."
+fi
 
 printf "\n--- Summary ---\n"
 if [[ $errors -eq 0 ]]; then

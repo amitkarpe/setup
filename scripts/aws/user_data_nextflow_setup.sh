@@ -106,10 +106,75 @@ else
     echo "nf-core tools already found."
 fi
 
-echo "Adding current user $USER to docker group..."
-docker pull alpine:3.18.11
-sudo usermod -aG docker $USER
+# --- Install AWS CLI v2 --- 
+echo ""
+echo "--- Installing/Updating AWS CLI v2 ---"
+if command -v aws &> /dev/null && aws --version | grep -q 'aws-cli/2'; then
+    echo "AWS CLI v2 already installed: $(aws --version)"
+else
+    echo "Installing AWS CLI v2..."
+    # Ensure unzip is installed (should be from base prerequisites)
+    if ! command -v unzip &> /dev/null; then apt-get install -y unzip; fi
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+    unzip -q /tmp/awscliv2.zip -d /tmp
+    # Use install directly, as we are root
+    /tmp/aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+    rm -f /tmp/awscliv2.zip
+    rm -rf /tmp/aws
+    echo "AWS CLI v2 installation complete."
+fi
+aws --version
+
+# --- Install SSM Agent --- 
+echo ""
+echo "--- Installing/Ensuring SSM Agent --- "
+# Check snap first as it's common on newer Ubuntu
+ssm_snap_active=false
+if command -v snap &> /dev/null && snap list amazon-ssm-agent &> /dev/null; then
+    if systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service; then
+        echo "SSM Agent (Snap) is already installed and active."
+        ssm_snap_active=true
+    else
+        echo "SSM Agent (Snap) found but not active. Attempting to start..."
+        systemctl enable --now snap.amazon-ssm-agent.amazon-ssm-agent.service || echo "Failed to start snap SSM Agent."
+        if systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service; then ssm_snap_active=true; fi
+    fi
+fi
+
+# If snap wasn't active/present, try installing/activating the deb package
+if ! $ssm_snap_active; then
+    echo "SSM Agent (Snap) not found or inactive. Checking/Installing .deb version..."
+    # Check if deb service exists and is active
+    if systemctl is-active --quiet amazon-ssm-agent; then
+        echo "SSM Agent (.deb) is already installed and active."
+    else
+        echo "Attempting to install SSM Agent (.deb)..."
+        # Ensure wget is installed
+        if ! command -v wget &> /dev/null; then apt-get install -y wget; fi
+        ARCH=$(dpkg --print-architecture)
+        # Need region - try to get from instance metadata, default otherwise
+        REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region || echo "us-east-1") 
+        SSM_DEB_URL="https://s3.${REGION}.amazonaws.com/amazon-ssm-${REGION}/latest/debian_${ARCH}/amazon-ssm-agent.deb"
+        SSM_DEB_TMP="/tmp/amazon-ssm-agent.deb"
+        echo "Downloading SSM Agent for $ARCH from $SSM_DEB_URL..."
+        wget -q "$SSM_DEB_URL" -O "$SSM_DEB_TMP"
+        echo "Installing SSM Agent from $SSM_DEB_TMP..."
+        dpkg -i "$SSM_DEB_TMP" || apt --fix-broken install -y # Install or fix dependencies
+        rm -f "$SSM_DEB_TMP"
+        echo "Enabling and starting SSM Agent service..."
+        systemctl enable --now amazon-ssm-agent
+    fi
+fi
+
+echo "Checking final SSM Agent status..."
+systemctl status amazon-ssm-agent --no-pager || snap list amazon-ssm-agent || echo "SSM Agent status check failed or not found."
+
+echo "Adding current user ${USER} to docker group..."
+#sudo usermod -aG docker $USER
 sudo usermod -aG docker ubuntu ssm-user
+sudo usermod -aG docker ssm-user
+sudo chmod 666 /var/run/docker.sock
+docker run hello-world
 #    echo "Adding current user $USER to podman group..."
 #    sudo usermod -aG podman $USER
 
