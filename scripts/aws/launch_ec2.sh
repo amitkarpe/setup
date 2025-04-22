@@ -39,20 +39,17 @@ echo "Found AMI ID: $LATEST_AMI_ID"
 # --- Construct and Run EC2 Instance using simpler CLI args --- 
 echo "Launching EC2 instance..."
 
+# Ensure ALL necessary parameters are included
 aws ec2 run-instances \
   --region "$REGION" \
   --image-id "$LATEST_AMI_ID" \
   --instance-type "$INSTANCE_TYPE" \
   --key-name "$KEY_NAME" \
   --iam-instance-profile Name="$IAM_ROLE_NAME" \
-  # Use direct subnet-id and security-group-ids args
   --subnet-id "$SUBNET_ID" \
   --security-group-ids $SECURITY_GROUP_IDS \
-  # Use simpler block-device-mappings syntax
   --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE_GB,VolumeType=gp3,DeleteOnTermination=true}" \
-  # Use simpler tag-specifications syntax
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$INSTANCE_NAME},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" "ResourceType=volume,Tags=[{Key=Name,Value=${INSTANCE_NAME}-rootvol},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" \
-  # Add user data (assuming we want the default here for the hardcoded script)
   --user-data file://scripts/aws/user_data_nextflow_setup.sh \
   --count 1
 
