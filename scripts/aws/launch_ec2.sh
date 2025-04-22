@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+set -x
 # --- Configuration --- 
 # Retrieved from issues.md
 REGION="ap-southeast-1"
@@ -33,28 +34,9 @@ fi
 
 echo "Found AMI ID: $LATEST_AMI_ID"
 
-# --- Prepare Block Device Mapping JSON --- 
-# Note: For GP3, you might specify IOPS/Throughput. For GP2, just size.
-# Ensure the device name (/dev/sda1 or /dev/xvda) matches the AMI's root device name.
-# You might need to check the AMI details manually or with describe-images if unsure.
-# Assuming /dev/sda1 for standard Ubuntu AMIs from Canonical.
-BLOCK_DEVICE_MAPPINGS='[{"DeviceName": "/dev/sda1", "Ebs": {"VolumeSize": '$VOLUME_SIZE_GB', "VolumeType": "gp3", "DeleteOnTermination": true}}]'
+# --- REMOVE JSON String Preparations --- 
 
-# --- Prepare Tags Specification --- 
-TAG_SPECIFICATIONS='[{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"'$INSTANCE_NAME'"},{"Key":"CreatedBy","Value":"'$TAG_CREATED_BY'"}]},{"ResourceType":"volume","Tags":[{"Key":"Name","Value":"'$INSTANCE_NAME'-rootvol'"},{"Key":"CreatedBy","Value":"'$TAG_CREATED_BY'"}]}]'
-
-# --- Prepare Network Interface JSON --- 
-# Format security groups correctly into a JSON array of strings
-FORMATTED_SG_IDS=""
-for sg in $SECURITY_GROUP_IDS; do
-  FORMATTED_SG_IDS+="\"$sg\","
-done
-# Remove trailing comma
-FORMATTED_SG_IDS=${FORMATTED_SG_IDS%,}
-
-NETWORK_INTERFACES='[{"DeviceIndex": 0, "SubnetId": "'$SUBNET_ID'", "Groups": ['$FORMATTED_SG_IDS'], "AssociatePublicIpAddress": true}]'
-
-# --- Construct and Run EC2 Instance --- 
+# --- Construct and Run EC2 Instance using simpler CLI args --- 
 echo "Launching EC2 instance..."
 
 aws ec2 run-instances \
@@ -63,12 +45,18 @@ aws ec2 run-instances \
   --instance-type "$INSTANCE_TYPE" \
   --key-name "$KEY_NAME" \
   --iam-instance-profile Name="$IAM_ROLE_NAME" \
-  --network-interfaces "$NETWORK_INTERFACES" \
-  --block-device-mappings "$BLOCK_DEVICE_MAPPINGS" \
-  --tag-specifications "$TAG_SPECIFICATIONS" \
+  # Use direct subnet-id and security-group-ids args
+  --subnet-id "$SUBNET_ID" \
+  --security-group-ids $SECURITY_GROUP_IDS \
+  # Use simpler block-device-mappings syntax
+  --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE_GB,VolumeType=gp3,DeleteOnTermination=true}" \
+  # Use simpler tag-specifications syntax
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$INSTANCE_NAME},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" "ResourceType=volume,Tags=[{Key=Name,Value=${INSTANCE_NAME}-rootvol},{Key=CreatedBy,Value=$TAG_CREATED_BY}]" \
+  # Add user data (assuming we want the default here for the hardcoded script)
+  --user-data file://scripts/aws/user_data_nextflow_setup.sh \
   --count 1
 
-
+# --- Status Check & Export --- 
 INSTANCE_INFO=$(aws ec2 describe-instances \
   --region $REGION \
   --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=pending,running" \
