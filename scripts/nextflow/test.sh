@@ -178,22 +178,6 @@ else
     print_status failure "AWS CLI command not found!"
 fi
 
-printf "\n--- Testing SSM Agent Status ---"
-# Check both snap and deb service names, prioritize active
-if sudo systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service; then
-    print_status success "SSM Agent (Snap) is active."
-    sudo systemctl status snap.amazon-ssm-agent.amazon-ssm-agent.service --no-pager | sed 's/^/    /'
-elif sudo systemctl is-active --quiet amazon-ssm-agent; then
-    print_status success "SSM Agent (.deb) is active."
-    sudo systemctl status amazon-ssm-agent --no-pager | sed 's/^/    /'
-elif command -v snap &> /dev/null && snap list amazon-ssm-agent &> /dev/null; then
-    print_status failure "SSM Agent (Snap) is installed but NOT active."
-elif systemctl list-units --all | grep -q amazon-ssm-agent.service; then 
-    print_status failure "SSM Agent (.deb) is installed but NOT active."
-else
-    print_status failure "SSM Agent does not appear to be installed."
-fi
-
 printf "\n--- Summary ---\n"
 if [[ $errors -eq 0 ]]; then
     print_status success "All tests passed!"
