@@ -93,7 +93,7 @@ aws ec2 run-instances \
 INSTANCE_INFO=$(aws ec2 describe-instances \
   --region $REGION \
   --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=pending,running" \
-  --query 'Reservations[].Instances[?LaunchTime>=`date +%s -d "5 minutes ago"`].[InstanceId,State.Name,LaunchTime]' \
+  --query 'Reservations[].Instances[].[InstanceId,State.Name,LaunchTime]' \
   --output text)
 
 echo ""
