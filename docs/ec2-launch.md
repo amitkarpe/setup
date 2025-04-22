@@ -11,30 +11,51 @@ This document describes how to use the provided script to launch a pre-configure
 
 ## Configuration
 
-The script `scripts/aws/launch_ec2.sh` contains configuration variables at the top:
+Instance configuration is now provided via an external environment file (e.g., `my-ec2.env`). This file should contain shell variable assignments for the required parameters.
 
-- `REGION`: AWS Region (e.g., `ap-southeast-1`)
-- `INSTANCE_TYPE`: EC2 Instance Type (e.g., `t3.xlarge`)
-- `VPC_ID`: Target VPC ID
-- `SUBNET_ID`: Target Subnet ID
-- `IAM_ROLE_NAME`: Name of the IAM Instance Profile Role
-- `SECURITY_GROUP_IDS`: Space-separated list of Security Group IDs
-- `KEY_NAME`: Name of the EC2 Key Pair
-- `VOLUME_SIZE_GB`: Size of the root EBS volume in GB (e.g., `200`)
-- `INSTANCE_NAME`: Base name for the instance tag (timestamp will be appended)
-- `TAG_CREATED_BY`: Value for the 'CreatedBy' tag
+**Example Environment File (`my-ec2.env`):**
 
-Modify these variables directly in the script if needed for different launches.
+```bash
+REGION="ap-southeast-1"
+INSTANCE_TYPE="t3.xlarge"
+VPC_ID="vpc-xxxxxxxx"
+SUBNET_ID="subnet-xxxxxxxx"
+IAM_ROLE_NAME="YourIAMRoleName"
+SECURITY_GROUP_IDS="sg-xxxxxxxx sg-yyyyyyyy"
+KEY_NAME="your-key-pair"
+VOLUME_SIZE_GB=200
+
+# Optional:
+LATEST_AMI_ID="ami-xxxxxxxxxxxxxxxxx" # Leave empty or omit to find latest Ubuntu 22.04
+INSTANCE_NAME="my-custom-instance-name" # Optional, defaults to ubuntu-YYYYMMDD-HHMM
+TAG_CREATED_BY="your-name"           # Optional, defaults to scripted-launch
+```
+
+**Required Variables:**
+- `REGION`
+- `INSTANCE_TYPE`
+- `VPC_ID`
+- `SUBNET_ID`
+- `IAM_ROLE_NAME`
+- `SECURITY_GROUP_IDS` (space-separated)
+- `KEY_NAME`
+- `VOLUME_SIZE_GB`
+
+**Optional Variables:**
+- `LATEST_AMI_ID`: If set, uses this AMI ID. If empty or omitted, the script finds the latest Ubuntu 22.04 LTS AMI for the specified region. You can also set it to `FIND_LATEST` to explicitly trigger the lookup.
+- `INSTANCE_NAME`: Base name for the instance tag.
+- `TAG_CREATED_BY`: Value for the 'CreatedBy' tag.
 
 ## Usage
 
-1.  Navigate to the `scripts/aws` directory.
-2.  Run the launch target using the Makefile:
+1.  Create an environment file (e.g., `my-ec2.env`) with your desired configuration.
+2.  Run the launch script from the repository root, providing the path to your environment file as the first argument:
 
     ```bash
-    cd scripts/aws
-    make launch
+    bash scripts/aws/launch_ec2.sh path/to/your/my-ec2.env
     ```
+
+    *(Using the Makefile is no longer the primary method for this script)*
 
 This will execute the `launch_ec2.sh` script, which performs the following:
 

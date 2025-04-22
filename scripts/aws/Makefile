@@ -2,12 +2,17 @@ SHELL := /bin/bash
 
 .PHONY: launch delete help
 
-# Variable for delete target
+# Variables for targets
+ENV_FILE ?= ""
 INSTANCE_ID ?= ""
 
 launch:
-	@echo "Running EC2 launch script..."
-	@bash launch_ec2.sh
+	@if [ -z "$(ENV_FILE)" ]; then \
+		echo "Error: ENV_FILE must be set. Usage: make launch ENV_FILE=path/to/your.env"; \
+		exit 1; \
+	fi
+	@echo "Running EC2 launch script with config from $(ENV_FILE)..."
+	@bash launch_ec2.sh "$(ENV_FILE)"
 
 # Target to delete an instance
 delete:
@@ -22,6 +27,6 @@ help:
 	@echo "Makefile for AWS EC2 operations"
 	@echo ""
 	@echo "Usage:"
-	@echo "  make launch             - Launch a new EC2 instance based on launch_ec2.sh"
+	@echo "  make launch ENV_FILE=<path>    - Launch EC2 instance using config from <path>"
 	@echo "  make delete INSTANCE_ID=<id> - Terminate the specified EC2 instance"
 	@echo "  make help               - Show this help message" 
